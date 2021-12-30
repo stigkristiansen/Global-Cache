@@ -71,7 +71,7 @@ class iTachDiscovery extends IPSModule {
 		$this->SendDebug(__FUNCTION__, 'Checking for complete multicast: ' . $multicast, 0);
 
 		$pre = stripos($multicast, 'AMXB');
-		$post = stripos($multicast, "<CR>");
+		$post = stripos($multicast, chr(13));
 
 		$this->SendDebug(__FUNCTION__, 'Pre: '  . json_encode($pre), 0);
 		$this->SendDebug(__FUNCTION__, 'Post: '  . json_encode($post), 0);
