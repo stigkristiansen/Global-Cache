@@ -93,8 +93,6 @@ class iTachDiscovery extends IPSModule {
 
 		$this->SendDebug(__FUNCTION__, 'Ready for handling: ' . $multicast, 0);
 
-		return;
-
 		$values = explode(';', $multicast);
 
 		$device = [];
