@@ -2,7 +2,7 @@
     "id": "{4E2DD381-7FF0-7256-53A7-C5A3DDC8A4F6}",
     "name": "iTach Discovery",
     "type": 5,
-    "vendor": "",
+    "vendor": "Global Cache",
     "aliases": [],
     "parentRequirements": [
         "{C8792760-65CF-4C53-B5C7-A30FCC84FEFE}"

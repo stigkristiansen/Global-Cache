@@ -2,7 +2,7 @@
     "id": "{C507B0A6-C990-9CC5-8752-FCA481CE66DD}",
     "name": "iTach Device",
     "type": 3,
-    "vendor": "",
+    "vendor": "Global Cache",
     "aliases": [],
     "parentRequirements": [
         "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}"
