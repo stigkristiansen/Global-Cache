@@ -73,25 +73,22 @@ class iTachDiscovery extends IPSModule {
 		$pre = stripos($multicast, 'AMXB');
 		$post = stripos($multicast, chr(13));
 
-		$this->SendDebug(__FUNCTION__, 'Pre: '  . json_encode($pre), 0);
-		$this->SendDebug(__FUNCTION__, 'Post: '  . json_encode($post), 0);
-
 		if($pre!==false && $post!==false) {
 			$this->UpdateBufferRaw('multicast', '');
 			$this->SendDebug(__FUNCTION__, 'Complete multicast received', 0);
 		} else {
 			$this->UpdateBufferRaw('multicast', $multicast);
-			$this->SendDebug(__FUNCTION__, 'Incomplete data receviced. Saving for later usage...', 0);
+			$this->SendDebug(__FUNCTION__, 'Incomplete data received. Saving for later usage...', 0);
 			return;
 		}
 
-		$multicast = substr($multicast, $pre+9, $post-$pre-9);
+		$multicast = substr($multicast, $pre+9, $$post-$pre-9);
 
 		$multicast = str_replace('&lt;-', ';', $multicast);
 		$multicast = str_replace('&gt;', '', $multicast);
 		$multicast = str_replace('&lt', '', $multicast);
 
-		$this->SendDebug(__FUNCTION__, 'Ready for handling: ' . $multicast, 0);
+		//$this->SendDebug(__FUNCTION__, 'Ready for handling: ' . $multicast, 0);
 
 		$values = explode(';', $multicast);
 
@@ -99,12 +96,25 @@ class iTachDiscovery extends IPSModule {
 		$max = count($values);
 		for($i=0;$i<$max;$i++) {
 			$value = explode('=', $values[$i]);
-			$device[$value[0]] = $value[1];
+			$device[strtolower($value[0])] = $value[1];
 		}
 
 		$device['timestamp'] = time();
 
 		$this->SendDebug(__FUNCTION__, 'Received multicast: ' . json_encode($device), 0);
+
+		if($this->Lock('devices')) {
+			$devies = json_decode($this->GetBuffer('devices'), true);
+			if(array_key_exists($device['uuid'], $devices)) {
+				$devices[$device['uuid']]['timestamp'] = time();
+			} else {
+				$devices[$devices[$device['uuid']] = $device;
+			}
+
+			$this->SetBuffer('devices', json_encode($devices));
+			$this->Unlock('devices');
+
+		}
 
 	}
 
