@@ -14,6 +14,10 @@ class iTachDiscovery extends IPSModule {
 		$this->ForceParent('{BAB408E0-0A0F-48C3-B14E-9FB2FA81F66A}');
 
 		$this->RegisterTimer('SetIOConfig', 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "SetIOConfig", 0);'); 
+
+		$this->SetBuffer('FormDevices', json_encode([]));
+		$this->SetBuffer('MulticastDevices', json_encode([]]));
+		$this->SetBuffer('SearchInProgress', json_encode(false));
 	}
 
 	public function Destroy() {
@@ -40,9 +44,6 @@ class iTachDiscovery extends IPSModule {
 		$this->LogMessage($msg, KL_NOTIFY);
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
-		$devices = [];
-		$this->SetBuffer('devices', json_encode($devices));
-
 		$this->SetTimerInterval('SetIOConfig', 1000);
 	}
 
@@ -56,6 +57,147 @@ class iTachDiscovery extends IPSModule {
 			$this->Init();
 		}
 	}
+
+	public function GetConfigurationForm() {
+		$this->SendDebug(__FUNCTION__, 'Generating the form...', 0);
+		$this->SendDebug(__FUNCTION__, sprintf('SearchInProgress is "%s"', json_decode($this->GetBuffer('SearchInProgress'))?'TRUE':'FALSE'), 0);
+					
+		$devices = json_decode($this->GetBuffer('FormDevices'));
+	   
+		if (!json_decode($this->GetBuffer('SearchInProgress'))) {
+			$this->SendDebug(__FUNCTION__, 'Setting SearchInProgress to TRUE', 0);
+			$this->SetBuffer('SearchInProgress', json_encode(true));
+			
+			$this->SendDebug(__FUNCTION__, 'Starting a timer to process the search in a new thread...', 0);
+			$this->RegisterOnceTimer('LoadDevicesTimer', 'IPS_RequestAction(' . (string)$this->InstanceID . ', "Discover", 0);');
+		}
+
+		$form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
+		$form['actions'][0]['visible'] = count($devices)==0;
+		
+		$this->SendDebug(__FUNCTION__, 'Adding cached devices to the form', 0);
+		$form['actions'][1]['values'] = $devices;
+
+		$this->SendDebug(__FUNCTION__, 'Finished generating the form', 0);
+
+		return json_encode($form);
+	}
+
+	private function LoadDevices() {
+		$this->SendDebug(__FUNCTION__, 'Updating Discovery form...', 0);
+
+		$devices = $this->DiscoverGCDevices();
+		$instances = $this->GetGCInstances();
+		
+		$this->SendDebug(__FUNCTION__, 'Setting SearchInProgress to FALSE', 0);
+		$this->SetBuffer('SearchInProgress', json_encode(false));
+		
+		$values = [];
+		
+		// Add devices that are discovered
+		if(count($devices)>0) {
+			$this->SendDebug(__FUNCTION__, 'Adding discovered devices...', 0);
+		} else {
+			$this->SendDebug(__FUNCTION__, 'No devices discovered!', 0);
+		}
+
+		foreach ($devices as $name => $device) {
+			$value = [
+				'Name' => $name,
+				'Model' => $device['Model'],
+				'IPAddress' => $device['IPAddress'],
+				'instanceID' => 0
+			];
+
+			$this->SendDebug(__FUNCTION__, sprintf('Added device with name "%s"', $name), 0);
+			
+			// Check if discovered device has an instance that is created earlier. If found, set InstanceID
+			$instanceId = array_search($serialNumber, $instances);
+			if ($instanceId !== false) {
+				$this->SendDebug(__FUNCTION__, sprintf('The device (%s) already has an instance (%s). Setting InstanceId and changing the name to "%s"', $serialNumber, $instanceId, IPS_GetName($instanceId)), 0);
+				unset($instances[$instanceId]); // Remove from list to avoid duplicates
+				$value['instanceID'] = $instanceId;
+				$value['Name'] = IPS_GetName($instanceId);
+			} 
+			
+			$value['create'] = [
+				'moduleID'       => '{5B66102A-96ED-DF96-0B89-54E37501F997}',  
+				'Name'			 => $name,
+				'configuration'	 => [
+					'Model' 		=> $device['Model'],
+					'IPAddress'		=> $device['IPAddress'],
+					'Name'			=> $name
+				]
+			];
+		
+			$values[] = $value;
+		}
+
+		// Add devices that are not discovered, but created earlier
+		if(count($instances)>0) {
+			$this->SendDebug(__FUNCTION__, 'Adding instances that are not discovered...', 0);
+		}
+		foreach ($instances as $instanceId => $serialNumber) {
+			$values[] = [
+				'SerialNumber'  => $serialNumber, 
+				'Name' 		 	=> IPS_GetName($instanceId), //json_decode(IPS_GetConfiguration($instanceId),true)['Name'],
+				'Model'		 	=> json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
+				'IPAddress'	 	=> json_decode(IPS_GetConfiguration($instanceId),true)['IPAddress'],
+				'instanceID' 	=> $instanceId
+			];
+
+			$this->SendDebug(__FUNCTION__, sprintf('Added instance "%s" with InstanceID "%s"', IPS_GetName($instanceId), $instanceId), 0);
+		}
+
+		$newDevices = json_encode($values);
+		$this->SetBuffer('Devices', $newDevices);
+					
+		$this->UpdateFormField('Discovery', 'values', $newDevices);
+		$this->UpdateFormField('SearchingInfo', 'visible', false);
+
+		$this->SendDebug(__FUNCTION__, 'Updating Discovery form completed', 0);
+	}
+
+	private function DiscoverGCDevices() : array {
+		$this->LogMessage('Discovering iTach devices...', KL_NOTIFY);
+
+		$this->SendDebug(__FUNCTION__, 'Discovering iTach devices...', 0);
+
+		$devices = [];
+		if($this->Lock('MulticastDevices')) {
+			$discoveredDevices = json_decode($this->GetBuffer('MulticastDevices'), true);
+			$this->Unlock('MulticastDevices');
+		} else {
+			return $devices;
+		}
+
+		foreach($discoveredDevices as $device) {
+			$devices[$device['uuid']] = ['Model' => $device['model'], 'IPAddress' => $device['config-url']];
+		}
+
+		$this->SendDebug(__FUNCTION__, sprintf('Found %d iTach device(s)', count($devices)), 0);
+		$this->SendDebug(__FUNCTION__, 'Finished discovering iTach devices', 0);
+
+		return $devices;
+	}
+
+	private function GetGCInstances () : array {
+		$instances = [];
+
+		$this->SendDebug(__FUNCTION__, 'Searching for existing instances of MusicCast devices...', 0);
+
+		$instanceIds = IPS_GetInstanceListByModuleID('{5B66102A-96ED-DF96-0B89-54E37501F666}');
+		
+		foreach ($instanceIds as $instanceId) {
+			$instances[$instanceId] = IPS_GetProperty($instanceId, 'SerialNumber');
+		}
+
+		$this->SendDebug(__FUNCTION__, sprintf('Found %d instance(s) of MusicCast devices', count($instances)), 0);
+		$this->SendDebug(__FUNCTION__, 'Finished searching for MusicCast devices', 0);	
+
+		return $instances;
+	}
+
 
 	public function ReceiveData($JSONString) {
 		$data = json_decode($JSONString);
@@ -104,8 +246,8 @@ class iTachDiscovery extends IPSModule {
 
 		$this->SendDebug(__FUNCTION__, 'Received multicast: ' . json_encode($device), 0);
 
-		if($this->Lock('devices')) {
-			$devices = json_decode($this->GetBuffer('devices'), true);
+		if($this->Lock('MulticastDevices')) {
+			$devices = json_decode($this->GetBuffer('MulticastDevices'), true);
 			if(array_key_exists($device['uuid'], $devices)) {
 				$this->SendDebug(__FUNCTION__, 'Device is received earlier. Updating timestamp...', 0);
 				$devices[$device['uuid']]['timestamp'] = time();
@@ -114,8 +256,8 @@ class iTachDiscovery extends IPSModule {
 				$devices[$device['uuid']] = $device;
 			}
 
-			$this->SetBuffer('devices', json_encode($devices));
-			$this->Unlock('devices');
+			$this->SetBuffer('MulticastDevices', json_encode($devices));
+			$this->Unlock('MulticastDevices');
 
 		}
 
@@ -125,8 +267,15 @@ class iTachDiscovery extends IPSModule {
 		switch (strtolower($Ident)) {
 			case 'setioconfig':
 				$this->SetIOConfig();
+				break;
+			case 'discover':
+				$this->SendDebug(__FUNCTION__, 'Calling LoadDevices()...', 0);
+				$this->LoadDevices();
+				break;
 		}		
 	}
+
+
 
 	private function SetIOConfig() {
 		$this->SendDebug(__FUNCTION__, 'Setting the configuration of the Multicast I/O instance...', 0);

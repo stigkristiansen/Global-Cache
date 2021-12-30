@@ -24,23 +24,23 @@
             "add": false,
             "delete": true,
             "sort": {
-                "column": "Name",
+                "column": "name",
                 "direction": "ascending"
             },
             "columns": [
                 {
                     "caption": "Name",
-                    "name": "name",
+                    "name": "Name",
                     "width": "200px"
                 }, 
                 {
                     "caption": "Model",
-                    "name": "model",
+                    "name": "Model",
                     "width": "150px"
                 },
                 {
                     "caption": "IP Address",
-                    "name": "ipaddress",
+                    "name": "IPAddress",
                     "width": "auto"
                 }                                
             ],
