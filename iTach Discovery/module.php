@@ -98,14 +98,15 @@ class iTachDiscovery extends IPSModule {
 		$values = explode(';', $multicast);
 
 		$device = [];
-		$max = count($values)-1;
-		for($i=1;$i<$max;$i++) {
+		$max = count($values);
+		for($i=0;$i<$max;$i++) {
 			$value = explode('=', $values[$i]);
 			$device[$value[0]] = $value[1];
 		}
 
 		$device['timestamp'] = time();
 
+		$this->SendDebug(__FUNCTION__, 'Received multicast: ' . json_encode($device), 0);
 
 	}
 
