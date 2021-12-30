@@ -10,9 +10,9 @@ declare(strict_types=1);
 
 			$this->RequireParent('{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}');
 
-			$this->RegisterPropertyString(Properties::IPADDRESS, '');
-			$this->RegisterPropertyString(Properties::MODEL, '');
-			$this->RegisterPropertyString(Properties::NAME, '');
+			$this->RegisterPropertyString('IPAddress', '');
+			$this->RegisterPropertyString('Model', '');
+			$this->RegisterPropertyString('Name', '');
 		}
 
 		public function Destroy()
