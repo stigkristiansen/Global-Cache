@@ -91,8 +91,6 @@ class iTachDiscovery extends IPSModule {
 		$multicast = str_replace('&gt;', '', $multicast);
 		$multicast = str_replace('&lt', '', $multicast);
 
-		//$this->SendDebug(__FUNCTION__, 'Ready for handling: ' . $multicast, 0);
-
 		$values = explode(';', $multicast);
 
 		$device = [];
@@ -109,10 +107,10 @@ class iTachDiscovery extends IPSModule {
 		if($this->Lock('devices')) {
 			$devices = json_decode($this->GetBuffer('devices'), true);
 			if(array_key_exists($device['uuid'], $devices)) {
-				$this->SendDebug(__FUNCTION__, 'Information about device is received earlier. Uppdating timestamp...', 0);
+				$this->SendDebug(__FUNCTION__, 'Device is received earlier. Updating timestamp...', 0);
 				$devices[$device['uuid']]['timestamp'] = time();
 			} else {
-				$this->SendDebug(__FUNCTION__, 'Adding new device to device list', 0);
+				$this->SendDebug(__FUNCTION__, 'Adding new device to devices list', 0);
 				$devices[$device['uuid']] = $device;
 			}
 
