@@ -40,6 +40,8 @@ class iTachDiscovery extends IPSModule {
 		$this->LogMessage($msg, KL_NOTIFY);
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
+		$this->SetBufer('devices', json_encode([])
+
 		$this->SetTimerInterval('SetIOConfig', 1000);
 	}
 
