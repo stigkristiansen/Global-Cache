@@ -60,7 +60,7 @@ class iTachDiscovery extends IPSModule {
 
 		$this->SendDebug(__FUNCTION__, 'Received from parent: ' . $multicast, 0);
 
-		$multicast = htmlspecialchars($multicast);
+		$multicast = urlencode($multicast);
 
 		$buffer = $this->FetchBufferRaw('multicast');
 
