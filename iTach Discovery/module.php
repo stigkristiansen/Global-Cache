@@ -16,7 +16,7 @@ class iTachDiscovery extends IPSModule {
 		$this->RegisterTimer('SetIOConfig', 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "SetIOConfig", 0);'); 
 
 		$this->SetBuffer('FormDevices', json_encode([]));
-		$this->SetBuffer('MulticastDevices', json_encode([]]));
+		$this->SetBuffer('MulticastDevices', json_encode([]));
 		$this->SetBuffer('SearchInProgress', json_encode(false));
 	}
 
