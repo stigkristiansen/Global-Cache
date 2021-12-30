@@ -32,4 +32,8 @@ declare(strict_types=1);
 			$data = json_decode($JSONString);
 			IPS_LogMessage('Device RECV', utf8_decode($data->Buffer));
 		}
+
+		public function SendIRCommand(string $Device, string $Command) {
+
+		}
 	}

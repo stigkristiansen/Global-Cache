@@ -172,7 +172,8 @@ class iTachDiscovery extends IPSModule {
 		}
 
 		foreach($discoveredDevices as $device) {
-			$devices[$device['uuid']] = ['Model' => $device['model'], 'IPAddress' => $device['config-url']];
+			$ipAddress = substr($device['config-url'], 7);
+			$devices[$device['uuid']] = ['Model' => $device['model'], 'IPAddress' => $ipAddress];
 		}
 
 		$this->SendDebug(__FUNCTION__, sprintf('Found %d iTach device(s)', count($devices)), 0);
