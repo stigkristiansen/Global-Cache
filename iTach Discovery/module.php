@@ -62,7 +62,7 @@ class iTachDiscovery extends IPSModule {
 
 		$multicast = htmlspecialchars($multicast);
 
-		$buffer = $FetchBufferRaw('multicast');
+		$buffer = $this->FetchBufferRaw('multicast');
 
 		if(strlen($buffer)>0) {
 			$multicast = $buffer . $multicast;
