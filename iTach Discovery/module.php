@@ -68,13 +68,17 @@ class iTachDiscovery extends IPSModule {
 			$multicast = $buffer . $multicast;
 		}
 
+		$this->SendDebug(__FUNCTION__, 'Checking for complete multicast: ' . $multicast, 0);
+
 		$pre = stripos($multicast, 'amxb');
 		$post = stripos($multicast, '&gt;&lt;cr&gt;');
 
 		if($pre!==false && $post!==false) {
 			$this->UpdateBufferRaw('multicast', '');
+			$this->SendDebug(__FUNCTION__, 'Complete multicast received', 0);
 		} else {
 			$this->UpdateBufferRaw('multicast', $multicast);
+			$this->SendDebug(__FUNCTION__, 'Incomplete data receviced. Saving for later usage...', 0);
 			return;
 		}
 
