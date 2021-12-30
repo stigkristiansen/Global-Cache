@@ -112,16 +112,16 @@ class iTachDiscovery extends IPSModule {
 			$this->SendDebug(__FUNCTION__, sprintf('Added device with name "%s"', $name), 0);
 			
 			// Check if discovered device has an instance that is created earlier. If found, set InstanceID
-			$instanceId = array_search($serialNumber, $instances);
+			$instanceId = array_search($name, $instances);
 			if ($instanceId !== false) {
-				$this->SendDebug(__FUNCTION__, sprintf('The device (%s) already has an instance (%s). Setting InstanceId and changing the name to "%s"', $serialNumber, $instanceId, IPS_GetName($instanceId)), 0);
+				$this->SendDebug(__FUNCTION__, sprintf('The device (%s) already has an instance (%s). Setting InstanceId and changing the name to "%s"', $name, $instanceId, IPS_GetName($instanceId)), 0);
 				unset($instances[$instanceId]); // Remove from list to avoid duplicates
 				$value['instanceID'] = $instanceId;
 				$value['Name'] = IPS_GetName($instanceId);
 			} 
 			
 			$value['create'] = [
-				'moduleID'       => '{5B66102A-96ED-DF96-0B89-54E37501F997}',  
+				'moduleID'       => '{C507B0A6-C990-9CC5-8752-FCA481CE66DD}',  
 				'Name'			 => $name,
 				'configuration'	 => [
 					'Model' 		=> $device['Model'],
@@ -186,10 +186,10 @@ class iTachDiscovery extends IPSModule {
 
 		$this->SendDebug(__FUNCTION__, 'Searching for existing instances of MusicCast devices...', 0);
 
-		$instanceIds = IPS_GetInstanceListByModuleID('{5B66102A-96ED-DF96-0B89-54E37501F666}');
+		$instanceIds = IPS_GetInstanceListByModuleID('{C507B0A6-C990-9CC5-8752-FCA481CE66DD}');
 		
 		foreach ($instanceIds as $instanceId) {
-			$instances[$instanceId] = IPS_GetProperty($instanceId, 'SerialNumber');
+			$instances[$instanceId] = IPS_GetProperty($instanceId, 'Name');
 		}
 
 		$this->SendDebug(__FUNCTION__, sprintf('Found %d instance(s) of MusicCast devices', count($instances)), 0);
