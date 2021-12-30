@@ -58,9 +58,46 @@ class iTachDiscovery extends IPSModule {
 		$data = json_decode($JSONString);
 		$multicast = utf8_decode($data->Buffer);
 
-		$multicast = $data->Buffer;
-
 		$this->SendDebug(__FUNCTION__, 'Received from parent: ' . $multicast, 0);
+
+		$multicast = htmlspecialchars($multicast);
+
+		$buffer = $FetchBufferRaw('multicast');
+
+		if(strlen($buffer)>0) {
+			$multicast = $buffer . $multicast;
+		}
+
+		$pre = stripos($multicast, 'amxb');
+		$post = stripos($multicast, '&gt;&lt;cr&gt;');
+
+		if($pre!==false && $post!==false) {
+			$this->UpdateBufferRaw('multicast', '');
+		} else {
+			$this->UdateBufferRaw('multicast', $multicast);
+			return;
+		}
+
+		$multicast = substr($multicast, $pre, $post-$pre+1);
+
+		$multicast = str_replace('&lt;-', ';', $multicast);
+		$multicast = str_replace('&gt;', '', $multicast);
+		$multicast = str_replace('&lt', '', $multicast);
+
+		$this->SendDebug(__FUNCTION__, 'Ready for handling: ' . $multicast, 0);
+
+		return;
+
+		$values = explode(';', $multicast);
+
+		$device = [];
+		$max = count($values)-1;
+		for($i=1;$i<$max;$i++) {
+			$value = explode('=', $values[$i]);
+			$device[$value[0]] = $value[1];
+		}
+
+		$device['timestamp'] = time();
 
 
 	}
