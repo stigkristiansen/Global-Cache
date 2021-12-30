@@ -71,7 +71,7 @@ declare(strict_types=1);
 			
 			IPS_SetProperty($parentId, 'BindPort', 9131);
 			IPS_SetProperty($parentId, 'EnableReuseAddress', true);
-			IPS_SetProperty($parentId, 'MulticastIP', 239.255.250.250);
+			IPS_SetProperty($parentId, 'MulticastIP', '239.255.250.250');
 			IPS_SetProperty($parentId, "Open", true);
 			IPS_ApplyChanges($parentId);
 		}
