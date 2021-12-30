@@ -85,7 +85,7 @@ class iTachDiscovery extends IPSModule {
 			return;
 		}
 
-		$multicast = substr($multicast, $pre, $post-$pre+1);
+		$multicast = substr($multicast, $pre+4, $post-$pre+4);
 
 		$multicast = str_replace('&lt;-', ';', $multicast);
 		$multicast = str_replace('&gt;', '', $multicast);
