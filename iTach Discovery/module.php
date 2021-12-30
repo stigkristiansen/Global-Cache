@@ -74,7 +74,7 @@ class iTachDiscovery extends IPSModule {
 		if($pre!==false && $post!==false) {
 			$this->UpdateBufferRaw('multicast', '');
 		} else {
-			$this->UdateBufferRaw('multicast', $multicast);
+			$this->UpdateBufferRaw('multicast', $multicast);
 			return;
 		}
 
