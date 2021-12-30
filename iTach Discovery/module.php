@@ -108,7 +108,7 @@ class iTachDiscovery extends IPSModule {
 			if(array_key_exists($device['uuid'], $devices)) {
 				$devices[$device['uuid']]['timestamp'] = time();
 			} else {
-				$devices[$devices[$device['uuid']] = $device;
+				$devices[[$device['uuid']] = $device;
 			}
 
 			$this->SetBuffer('devices', json_encode($devices));
