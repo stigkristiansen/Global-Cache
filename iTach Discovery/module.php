@@ -104,7 +104,7 @@ class iTachDiscovery extends IPSModule {
 		$this->SendDebug(__FUNCTION__, 'Received multicast: ' . json_encode($device), 0);
 
 		if($this->Lock('devices')) {
-			$devies = json_decode($this->GetBuffer('devices'), true);
+			$devices = json_decode($this->GetBuffer('devices'), true);
 			if(array_key_exists($device['uuid'], $devices)) {
 				$devices[$device['uuid']]['timestamp'] = time();
 			} else {
