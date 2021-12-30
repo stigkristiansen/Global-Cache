@@ -109,8 +109,10 @@ class iTachDiscovery extends IPSModule {
 		if($this->Lock('devices')) {
 			$devices = json_decode($this->GetBuffer('devices'), true);
 			if(array_key_exists($device['uuid'], $devices)) {
+				$this->SendDebug(__FUNCTION__, 'Information about device is received earlier. Uppdating timestamp...', 0);
 				$devices[$device['uuid']]['timestamp'] = time();
 			} else {
+				$this->SendDebug(__FUNCTION__, 'Adding new device to device list', 0);
 				$devices[$device['uuid']] = $device;
 			}
 
