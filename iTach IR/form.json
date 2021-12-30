@@ -6,6 +6,15 @@
         },
         {
             "type" :  "Label" ,  "caption" :  "iTach IP2IR"
+        },
+        {
+            "type" :  "ValidationTextBox" ,  "name" :  "IPAddress" ,  "caption" :  "IP Address", "enabled": true
+        },
+        {
+            "type" :  "ValidationTextBox" ,  "name" :  "Name" ,  "caption" :  "Name", "enabled": false
+        },
+        {
+            "type" :  "ValidationTextBox" ,  "name" :  "Model" ,  "caption" :  "Model", "enabled": false
         }
     ],
     "actions": [],
