@@ -24,19 +24,19 @@
             "add": false,
             "delete": true,
             "sort": {
-                "column": "name",
+                "column": "Name",
                 "direction": "ascending"
             },
             "columns": [
                 {
                     "caption": "Name",
                     "name": "Name",
-                    "width": "200px"
+                    "width": "250px"
                 }, 
                 {
                     "caption": "Model",
                     "name": "Model",
-                    "width": "150px"
+                    "width": "100px"
                 },
                 {
                     "caption": "IP Address",
