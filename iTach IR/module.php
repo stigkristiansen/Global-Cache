@@ -6,7 +6,7 @@ class iTachDevice extends IPSModule {
 		//Never delete this line!
 		parent::Create();
 
-		$this->ForceParent('{3CFF0FD9-E306-41DB-9B5A -9D06D38576C3}');
+		$this->ForceParent('{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}');
 
 		$this->RegisterPropertyString('IPAddress', '');
 		$this->RegisterPropertyString('Model', '');
