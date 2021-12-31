@@ -44,7 +44,7 @@ class iTachDiscovery extends IPSModule {
 		$this->LogMessage($msg, KL_NOTIFY);
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
-		$this->SetTimerInterval('SetIOConfig', 1000);
+		//$this->SetTimerInterval('SetIOConfig', 1000);
 	}
 
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
@@ -122,12 +122,20 @@ class iTachDiscovery extends IPSModule {
 			
 			$value['create'] = [
 				[
-				'moduleID'       => '{C507B0A6-C990-9CC5-8752-FCA481CE66DD}',  
-				'Name'			 => $name,
-				'configuration'	 => [
-					'Model' 		=> $device['Model'],
-					'IPAddress'		=> $device['IPAddress'],
-					'Name'			=> $name
+					'moduleID'       => '{C507B0A6-C990-9CC5-8752-FCA481CE66DD}',  
+					'name'			 => $name,
+					'configuration'	 => [
+						'Model' 		=> $device['Model'],
+						'IPAddress'		=> $device['IPAddress'],
+						'Name'			=> $name
+					]
+				],
+				[
+					'moduleID'       => '{BAB408E0-0A0F-48C3-B14E-9FB2FA81F66A}',  
+					'configuration'	 => [
+						'Open' 			=> true,
+						'IPAddress'		=> $device['IPAddress'],
+						'Port'			=> 4998
 					]
 				]
 			];
