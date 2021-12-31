@@ -25,7 +25,7 @@
                     "caption": "Device",
                     "name": "device", 
                     "width": "75px",
-                    "add": "A device. Ex. \"TV\"",
+                    "add": "Samsung TV",
                     "edit": {
                         "type": "ValidationTextBox"
                     }
@@ -34,7 +34,7 @@
                     "caption": "Command",
                     "name": "Command",
                     "width": "75px",
-                    "add": "A command. Ex \"Mute\"",
+                    "add": "Toggle Mute",
                     "edit": {
                         "type": "ValidationTextBox"
                     }
@@ -43,7 +43,7 @@
                     "caption": "Code",
                     "name": "Code",
                     "width": "auto",
-                    "add": "",
+                    "add": "38000,1,1,172,172,22,64,22,64,22,64,22,21,22,21,22,21,22,21,22,21,22,64,22,64,22,64,22,21,22,21,22,21,22,21,22,21,22,64,22,64,22,64,22,64,22,21,22,21,22,21,22,21,22,21,22,21,22,21,22,21,22,64,22,64,22,64,22,64,22,1820",
                     "edit": {
                         "type": "ValidationTextBox"
                     }

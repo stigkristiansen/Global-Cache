@@ -11,6 +11,8 @@ class iTachDevice extends IPSModule {
 		$this->RegisterPropertyString('IPAddress', '');
 		$this->RegisterPropertyString('Model', '');
 		$this->RegisterPropertyString('Name', '');
+
+		$this->RegisterPropertyString('IRCodes', '');
 	}
 
 	public function Destroy() {
