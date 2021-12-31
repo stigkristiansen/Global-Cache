@@ -32,7 +32,7 @@
             "columns": [
                 {
                     "caption": "Device",
-                    "name": "device", 
+                    "name": "Device", 
                     "width": "200px",
                     "add": "Samsung TV",
                     "edit": {
