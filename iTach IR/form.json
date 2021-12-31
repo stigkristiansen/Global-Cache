@@ -24,7 +24,7 @@
                 {
                     "caption": "Device",
                     "name": "device", 
-                    "width": "75px",
+                    "width": "200px",
                     "add": "Samsung TV",
                     "edit": {
                         "type": "ValidationTextBox"
@@ -33,7 +33,7 @@
                 {
                     "caption": "Command",
                     "name": "Command",
-                    "width": "75px",
+                    "width": "200px",
                     "add": "Toggle Mute",
                     "edit": {
                         "type": "ValidationTextBox"
@@ -52,7 +52,6 @@
             "values": []
         }
     ],
-    "actions": [],
     "status": []
 }
 
