@@ -134,7 +134,7 @@ class iTachDiscovery extends IPSModule {
 					'moduleID'       => '{BAB408E0-0A0F-48C3-B14E-9FB2FA81F66A}',  
 					'configuration'	 => [
 						'Open' 			=> true,
-						'IPAddress'		=> $device['IPAddress'],
+						'Host'		=> $device['IPAddress'],
 						'Port'			=> 4998
 					]
 				]
