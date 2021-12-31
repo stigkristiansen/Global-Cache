@@ -27,7 +27,7 @@ class iTachDevice extends IPSModule {
 		$this->RegisterMessage(0, IPS_KERNELMESSAGE);
 
 		if (IPS_GetKernelRunlevel() == KR_READY) {
-			$this->Init();
+			//$this->Init();
 		}
 	}
 
@@ -38,7 +38,7 @@ class iTachDevice extends IPSModule {
 
 		if ($Message == IPS_KERNELMESSAGE && $Data[0] == KR_READY) {
 			$this->LogMessage('Detected "Kernel Ready"!', KL_NOTIFY);
-			$this->Init();
+			//$this->Init();
 		}
 	}
 
