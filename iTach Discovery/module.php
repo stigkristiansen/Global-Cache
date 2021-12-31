@@ -291,31 +291,41 @@ class iTachDiscovery extends IPSModule {
 	}
 
 	private function DeviceConfig() {
+		$this->SendDebug(__FUNCTION__, 'Checking if IO-configuration has changed for any of the created devices...', 0);
 		$devices = $this->DiscoverGCDevices();
 		$instances = $this->GetGCInstances();
 
 		foreach ($devices as $name => $device) {
 			$instanceId = array_search($name, $instances);
 			if ($instanceId !== false) {
+				$ipsName = IPS_GetName($instanceId);
+				
+				$this->SendDebug(__FUNCTION__, sprintf('Found instance %s(%d). Checking...',$ipsName, $instanceId), 0);
+
 				$parentId = IPS_GetInstance($instanceId)['ConnectionID'];
 
 				$host = IPS_GetProperty($parentId, 'Host');
+				$port = IPS_GetProperty($parentId, 'Port');
+				
 				$currentHost = $device['IPAddress'];
 		
-				if($host!=$currentHost) {
+				if($host!=$currentHost || $port != 4998) {
+					$this->SendDebug(__FUNCTION__, sprintf('Configuration for instance %s has changed. Reconfiguring to %s:4998....',$ipsName, $currentHost), 0);
 					IPS_SetProperty($parentId, 'Host', $currentHost);
 					IPS_SetProperty($parentId, 'Port', 4998);
 					IPS_SetProperty($parentId, "Open", true);
 					IPS_ApplyChanges($parentId);
+				} else {
+					$this->SendDebug(__FUNCTION__, sprintf('Configuraton for instance %s is unchanged', $ipsName), 0);
 				}
 			}
 		}		
 	}
 
 	private function SetIOConfig() {
-		$this->SendDebug(__FUNCTION__, 'Setting the configuration of the Multicast I/O instance...', 0);
-
 		$this->SetTimerInterval('SetIOConfig', 0);
+
+		$this->SendDebug(__FUNCTION__, 'Setting the configuration of the Multicast I/O instance...', 0);
 		
 		$parentId = IPS_GetInstance($this->InstanceID)['ConnectionID'];
 		
