@@ -15,6 +15,7 @@ class iTachDiscovery extends IPSModule {
 		
 
 		$this->RegisterTimer('SetIOConfig', 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "SetIOConfig", 0);'); 
+		$this->RegisterTimer('UpdateDeviceConfig', 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "DeviceConfig", 0);'); 
 
 		$this->SetBuffer('FormDevices', json_encode([]));
 		$this->SetBuffer('MulticastDevices', json_encode([]));
@@ -46,6 +47,7 @@ class iTachDiscovery extends IPSModule {
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
 		$this->SetTimerInterval('SetIOConfig', 1000);
+		$this->SetTimerInterval('UpdateConfig', 180000);
 	}
 
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
@@ -195,7 +197,7 @@ class iTachDiscovery extends IPSModule {
 	private function GetGCInstances () : array {
 		$instances = [];
 
-		$this->SendDebug(__FUNCTION__, 'Searching for existing instances of MusicCast devices...', 0);
+		$this->SendDebug(__FUNCTION__, 'Searching for existing instances of iTach devices...', 0);
 
 		$instanceIds = IPS_GetInstanceListByModuleID('{C507B0A6-C990-9CC5-8752-FCA481CE66DD}');
 		
@@ -203,8 +205,8 @@ class iTachDiscovery extends IPSModule {
 			$instances[$instanceId] = IPS_GetProperty($instanceId, 'Name');
 		}
 
-		$this->SendDebug(__FUNCTION__, sprintf('Found %d instance(s) of MusicCast devices', count($instances)), 0);
-		$this->SendDebug(__FUNCTION__, 'Finished searching for MusicCast devices', 0);	
+		$this->SendDebug(__FUNCTION__, sprintf('Found %d instance(s) of iTach devices', count($instances)), 0);
+		$this->SendDebug(__FUNCTION__, 'Finished searching for iTach devices', 0);	
 
 		return $instances;
 	}
@@ -269,9 +271,7 @@ class iTachDiscovery extends IPSModule {
 
 			$this->SetBuffer('MulticastDevices', json_encode($devices));
 			$this->Unlock('MulticastDevices');
-
 		}
-
 	}
 
 	public function RequestAction($Ident, $Value) {
@@ -283,6 +283,32 @@ class iTachDiscovery extends IPSModule {
 				$this->SendDebug(__FUNCTION__, 'Calling LoadDevices()...', 0);
 				$this->LoadDevices();
 				break;
+			case 'deviceconfig':
+				$this->SendDebug(__FUNCTION__, 'Calling DeviceConfig()...', 0);
+				$this->DeviceConfig();
+				break;
+		}		
+	}
+
+	private function DeviceConfig() {
+		$devices = $this->DiscoverGCDevices();
+		$instances = $this->GetGCInstances();
+
+		foreach ($devices as $name => $device) {
+			$instanceId = array_search($name, $instances);
+			if ($instanceId !== false) {
+				$parentId = IPS_GetInstance($instanceId)['ConnectionID'];
+
+				$host = IPS_GetProperty($parentId, 'Host');
+				$currentHost = $device['IPAddress'];
+		
+				if($host!=$currentHost) {
+					IPS_SetProperty($parentId, 'Host', $currentHost);
+					IPS_SetProperty($parentId, 'Port', 4998);
+					IPS_SetProperty($parentId, "Open", true);
+					IPS_ApplyChanges($parentId);
+				}
+			}
 		}		
 	}
 

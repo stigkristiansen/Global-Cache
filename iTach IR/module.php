@@ -12,7 +12,7 @@ class iTachDevice extends IPSModule {
 		$this->RegisterPropertyString('Model', '');
 		$this->RegisterPropertyString('Name', '');
 
-		$this->RegisterTimer('SetIOConfig', 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "SetIOConfig", 0);'); 
+		$this->RegisterTimer('CheckIOConfig', 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "SetIOConfig", 0);'); 
 	}
 
 	public function Destroy() {
@@ -48,7 +48,7 @@ class iTachDevice extends IPSModule {
 		$this->LogMessage($msg, KL_NOTIFY);
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
-		$this->SetTimerInterval('CheckIOConfig', 30000);
+		//$this->SetTimerInterval('CheckIOConfig', 300000);
 	}
 
 	public function RequestAction($Ident, $Value) {
