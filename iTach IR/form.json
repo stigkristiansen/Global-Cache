@@ -17,7 +17,6 @@
             "type": "List",
             "name": "IRCodes",
             "caption": "IR Codes",
-            "rowCount": 3,
             "add": true,
             "delete": true,
             "columns": [
