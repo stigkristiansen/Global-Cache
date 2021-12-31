@@ -12,6 +12,7 @@ class iTachDiscovery extends IPSModule {
 		parent::Create();
 
 		$this->ForceParent('{BAB408E0-0A0F-48C3-B14E-9FB2FA81F66A}');
+		
 
 		$this->RegisterTimer('SetIOConfig', 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "SetIOConfig", 0);'); 
 
@@ -131,7 +132,7 @@ class iTachDiscovery extends IPSModule {
 					]
 				],
 				[
-					'moduleID'       => '{BAB408E0-0A0F-48C3-B14E-9FB2FA81F66A}',  
+					'moduleID'       => '{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}',  
 					'configuration'	 => [
 						'Open' 			=> true,
 						'Host'		=> $device['IPAddress'],
