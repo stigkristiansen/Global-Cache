@@ -38,7 +38,7 @@ class iTachDevice extends IPSModule {
 
 		if ($Message == IPS_KERNELMESSAGE && $Data[0] == KR_READY) {
 			$this->LogMessage('Detected "Kernel Ready"!', KL_NOTIFY);
-			//$this->Init();
+			$this->Init();
 		}
 	}
 
@@ -48,34 +48,37 @@ class iTachDevice extends IPSModule {
 		$this->LogMessage($msg, KL_NOTIFY);
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
-		$this->SetTimerInterval('SetIOConfig', 1000);
+		$this->SetTimerInterval('CheckIOConfig', 30000);
 	}
 
 	public function RequestAction($Ident, $Value) {
 		switch (strtolower($Ident)) {
-			case 'setioconfig':
-				$this->SetIOConfig();
+			case 'checkioconfig':
+				$this->CheckIOConfig();
 				break;
 			}
 	}
 
-	private function SetIOConfig() {
-		$this->SendDebug(__FUNCTION__, 'Setting the configuration of the Socket Client I/O instance...', 0);
+	private function CheckIOConfig() {
+		$this->SendDebug(__FUNCTION__, 'Checking the configuration of the parent I/O instance...', 0);
 
-		$this->SetTimerInterval('SetIOConfig', 0);
-		
 		$parentId = IPS_GetInstance($this->InstanceID)['ConnectionID'];
+
+		$host = IPS_GetProperty($parentId, 'Host');
+		$currentHost = $this->ReadPropertyString('IPAddress');
 		
-		IPS_SetProperty($parentId, 'Host', $this->ReadPropertyString('IPAddress'));
-		IPS_SetProperty($parentId, 'Port', 4998);
-		IPS_SetProperty($parentId, "Open", true);
-		IPS_ApplyChanges($parentId);
+		if($host!=$currentHost) {
+			IPS_SetProperty($parentId, 'Host', $currentHost);
+			IPS_SetProperty($parentId, 'Port', 4998);
+			IPS_SetProperty($parentId, "Open", true);
+			IPS_ApplyChanges($parentId);
+		}
 	}
 
 	public function ReceiveData($JSONString)
 	{
 		$data = json_decode($JSONString);
-		IPS_LogMessage('Device RECV', utf8_decode($data->Buffer));
+		//IPS_LogMessage('Device RECV', utf8_decode($data->Buffer));
 	}
 
 	public function SendIRCommand(string $Device, string $Command) {
