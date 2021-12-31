@@ -300,7 +300,7 @@ class iTachDiscovery extends IPSModule {
 			if ($instanceId !== false) {
 				$ipsName = IPS_GetName($instanceId);
 				
-				$this->SendDebug(__FUNCTION__, sprintf('Found instance %s(%d). Checking...',$ipsName, $instanceId), 0);
+				$this->SendDebug(__FUNCTION__, sprintf('Found instance %s(Id: %d). Checking...',$ipsName, $instanceId), 0);
 
 				$parentId = IPS_GetInstance($instanceId)['ConnectionID'];
 

@@ -11,8 +11,6 @@ class iTachDevice extends IPSModule {
 		$this->RegisterPropertyString('IPAddress', '');
 		$this->RegisterPropertyString('Model', '');
 		$this->RegisterPropertyString('Name', '');
-
-		$this->RegisterTimer('CheckIOConfig', 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "SetIOConfig", 0);'); 
 	}
 
 	public function Destroy() {
@@ -38,7 +36,7 @@ class iTachDevice extends IPSModule {
 
 		if ($Message == IPS_KERNELMESSAGE && $Data[0] == KR_READY) {
 			$this->LogMessage('Detected "Kernel Ready"!', KL_NOTIFY);
-			$this->Init();
+			//$this->Init();
 		}
 	}
 
@@ -48,7 +46,7 @@ class iTachDevice extends IPSModule {
 		$this->LogMessage($msg, KL_NOTIFY);
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
-		//$this->SetTimerInterval('CheckIOConfig', 300000);
+		
 	}
 
 	public function RequestAction($Ident, $Value) {
@@ -57,22 +55,6 @@ class iTachDevice extends IPSModule {
 				$this->CheckIOConfig();
 				break;
 			}
-	}
-
-	private function CheckIOConfig() {
-		$this->SendDebug(__FUNCTION__, 'Checking the configuration of the parent I/O instance...', 0);
-
-		$parentId = IPS_GetInstance($this->InstanceID)['ConnectionID'];
-
-		$host = IPS_GetProperty($parentId, 'Host');
-		$currentHost = $this->ReadPropertyString('IPAddress');
-		
-		if($host!=$currentHost) {
-			IPS_SetProperty($parentId, 'Host', $currentHost);
-			IPS_SetProperty($parentId, 'Port', 4998);
-			IPS_SetProperty($parentId, "Open", true);
-			IPS_ApplyChanges($parentId);
-		}
 	}
 
 	public function ReceiveData($JSONString)

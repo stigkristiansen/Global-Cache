@@ -12,8 +12,50 @@
         },
         {
             "type" :  "ValidationTextBox" ,  "name" :  "Model" ,  "caption" :  "Model", "enabled": false
+        },
+        {
+            "type": "List",
+            "name": "IRCodes",
+            "caption": "IR Codes",
+            "rowCount": 3,
+            "add": true,
+            "delete": true,
+            "columns": [
+                {
+                    "caption": "Device",
+                    "name": "device", 
+                    "width": "75px",
+                    "add": "A device. Ex. \"TV\"",
+                    "edit": {
+                        "type": "ValidationTextBox"
+                    }
+                },
+                {
+                    "caption": "Command",
+                    "name": "Command",
+                    "width": "75px",
+                    "add": "A command. Ex \"Mute\"",
+                    "edit": {
+                        "type": "ValidationTextBox"
+                    }
+                },
+                {
+                    "caption": "Code",
+                    "name": "Code",
+                    "width": "auto",
+                    "add": "",
+                    "edit": {
+                        "type": "ValidationTextBox"
+                    }
+                } 
+            ],
+            "values": []
         }
     ],
     "actions": [],
     "status": []
 }
+
+
+
+
