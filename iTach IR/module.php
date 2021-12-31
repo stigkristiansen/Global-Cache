@@ -12,6 +12,7 @@ class iTachDevice extends IPSModule {
 		$this->RegisterPropertyString('Model', '');
 		$this->RegisterPropertyString('Name', '');
 
+		$this->RegisterPropertyString('Port', '1:3');
 		$this->RegisterPropertyString('IRCodes', '');
 	}
 
@@ -66,6 +67,27 @@ class iTachDevice extends IPSModule {
 	}
 
 	public function SendIRCommand(string $Device, string $Command) {
+		$irCodes = $this->ReadPropertyString('IRCodes');
 
+		$this->SendDebug(__FUNCTION__, 'IR Codes: '.$irCodes, 0);
+
+		return;
+		
+		$buffer = "sendir,".$this->ReadPropertyString("Port").",".IPS_GetParent($cId).",".GetValueString($vId).chr(13).chr(10);
+		try{
+			$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $buffer)));
+		} catch (Exeption $ex) {
+			$msg = sprintf('Failed to send the command %s:%s. Error: %S',$Device, $Command, $ex->getMessage());
+			
+			$log->LogMessage($msg, KL_ERROR);
+			
+			return false;
+		}
+		
+		return true;
+	} 
+	$log->LogMessage("The command is not registered: ".$Device.":".$Command);
+	return false;
+				
 	}
 }
