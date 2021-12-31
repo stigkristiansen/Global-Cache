@@ -47,7 +47,7 @@ class iTachDiscovery extends IPSModule {
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
 		$this->SetTimerInterval('SetIOConfig', 1000);
-		$this->SetTimerInterval('UpdateConfig', 180000);
+		$this->SetTimerInterval('UpdateDeviceConfig', 180000);
 	}
 
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
