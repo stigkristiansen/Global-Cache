@@ -121,12 +121,14 @@ class iTachDiscovery extends IPSModule {
 			} 
 			
 			$value['create'] = [
+				[
 				'moduleID'       => '{C507B0A6-C990-9CC5-8752-FCA481CE66DD}',  
 				'Name'			 => $name,
 				'configuration'	 => [
 					'Model' 		=> $device['Model'],
 					'IPAddress'		=> $device['IPAddress'],
 					'Name'			=> $name
+					]
 				]
 			];
 		
@@ -274,8 +276,6 @@ class iTachDiscovery extends IPSModule {
 				break;
 		}		
 	}
-
-
 
 	private function SetIOConfig() {
 		$this->SendDebug(__FUNCTION__, 'Setting the configuration of the Multicast I/O instance...', 0);
