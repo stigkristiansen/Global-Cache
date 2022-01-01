@@ -18,11 +18,11 @@ class iTachDeviceRelay extends IPSModule {
 		$this->RegisterPropertySting('Relay', '1:1');
 	}
 
-	public function SendRelayCommand(bool $State, string $Relay = '') {
-		if(strlen($Relay)==0) {
-			$Relay = $this->ReadPropertyString("Relay");
-		}
+	public function SendRelayCommand(bool $State) {
+		$this->SendRelayCommandEx($State, $this->ReadPropertyString("Relay"));
+	}
 
+	public function SendRelayCommandEx(bool $State, string $Relay) {
 		$buffer = sprintf('setstate,%s,%d%c%c', $Relay, $State?1:0,13,10);
 		
 		try {

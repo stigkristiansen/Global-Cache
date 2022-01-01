@@ -20,7 +20,12 @@ class iTachDeviceIR extends IPSModule {
 		$this->RegisterPropertyString('IRCodes', '');
 	}
 
-	public function SendIRCommand(string $Device, string $Command, string $Port = '') {
+	
+	public function SendIRCommand(string $Device, sring $Command) {
+		$this->SendIRCommandEx($Device, $Command, $this->ReadPropertyString("Port"));
+	}
+
+	public function SendIRCommandEx(string $Device, string $Command, string $Port) {
 		$codes = json_decode($this->ReadPropertyString('IRCodes'), true);
 				
 		$device = strtolower($Device);
@@ -29,10 +34,6 @@ class iTachDeviceIR extends IPSModule {
 		$buffer='';
 		foreach($codes as $code) {
 			if(strtolower($code['Device'])==$device && strtolower($code['Command'])==$command) {
-				if(strlen($Port)==0) {
-					$Port = $this->ReadPropertyString("Port");
-				}
-				
 				$buffer = sprintf("sendir,%s,%d,%s%c%c",$Port, $this->InstanceID, $code['Code'], 13, 10);
 				break;
 			}
@@ -43,7 +44,7 @@ class iTachDeviceIR extends IPSModule {
 				$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $buffer)));
 				return true;
 			} catch (Exeption $ex) {
-				$msg = sprintf('Failed to send the command %s:%s. Error: %S',$Device, $Command, $ex->getMessage());
+				$msg = sprintf('Failed to send the command %s:%s. Error: %s',$Device, $Command, $ex->getMessage());
 				
 				$this->LogMessage($msg, KL_ERROR);
 				$this->SendDebug(__FUNCTION__, $msg, 0);

@@ -149,7 +149,7 @@ class iTachDiscovery extends IPSModule {
 		if(count($instances)>0) {
 			$this->SendDebug(__FUNCTION__, 'Adding instances that are not discovered...', 0);
 		}
-		
+
 		foreach ($instances as $instanceId => $name) {
 			$parentId = IPS_GetParent($instanceId);
 			$values[] = [
@@ -184,8 +184,10 @@ class iTachDiscovery extends IPSModule {
 		}
 	}
 
-	private function DiscoverGCDevices() : array {
-		$this->LogMessage('Discovering iTach devices...', KL_NOTIFY);
+	private function DiscoverGCDevices(bool $LogMessage=true) : array {
+		if($LogMessage) {
+			$this->LogMessage('Discovering iTach devices...', KL_NOTIFY);
+		}
 
 		$this->SendDebug(__FUNCTION__, 'Discovering iTach devices...', 0);
 
@@ -201,7 +203,7 @@ class iTachDiscovery extends IPSModule {
 			$ipAddress = substr($device['config-url'], 7);
 			$devices[$device['uuid']] = ['Model' => $device['model'], 'IPAddress' => $ipAddress];
 		}
-
+	
 		$this->SendDebug(__FUNCTION__, sprintf('Found %d iTach device(s)', count($devices)), 0);
 		$this->SendDebug(__FUNCTION__, 'Finished discovering iTach devices', 0);
 
@@ -309,7 +311,7 @@ class iTachDiscovery extends IPSModule {
 
 	private function DeviceConfig() {
 		$this->SendDebug(__FUNCTION__, 'Checking if IO-configuration has changed for any of the created devices...', 0);
-		$devices = $this->DiscoverGCDevices();
+		$devices = $this->DiscoverGCDevices(false);
 		$instances = $this->GetGCInstances();
 
 		foreach ($devices as $name => $device) {
