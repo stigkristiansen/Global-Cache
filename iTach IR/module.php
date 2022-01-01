@@ -16,7 +16,7 @@ class iTachDeviceIR extends IPSModule {
 		$this->RegisterPropertyString('Model', '');
 		$this->RegisterPropertyString('Name', '');
 
-		$this->RegisterPropertyString('Port', '1:3');
+		$this->RegisterPropertyString('Port', '1:1');
 		$this->RegisterPropertyString('IRCodes', '');
 	}
 
