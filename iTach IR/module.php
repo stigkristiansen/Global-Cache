@@ -27,6 +27,11 @@ class iTachDeviceIR extends IPSModule {
 
 	public function SendIRCommandEx(string $Device, string $Command, string $Port) {
 		$codes = json_decode($this->ReadPropertyString('IRCodes'), true);
+
+		if($codes==NULL) {
+			$this->SendDebug(__FUNCTION__, 'IR Codes table is empty!', 0);
+			return false;
+		}
 				
 		$device = strtolower($Device);
 		$command = strtolower($Command);
