@@ -149,11 +149,13 @@ class iTachDiscovery extends IPSModule {
 		if(count($instances)>0) {
 			$this->SendDebug(__FUNCTION__, 'Adding instances that are not discovered...', 0);
 		}
+		
 		foreach ($instances as $instanceId => $name) {
+			$parentId = IPS_GetParent($instanceId);
 			$values[] = [
 				'Name' 		 	=> IPS_GetName($instanceId), //json_decode(IPS_GetConfiguration($instanceId),true)['Name'],
 				'Model'		 	=> json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
-				//'IPAddress'	 	=> json_decode(IPS_GetConfiguration($instanceId),true)['IPAddress'],
+				'IPAddress'	 	=> json_decode(IPS_GetConfiguration($parentId),true)['Host'],
 				'instanceID' 	=> $instanceId
 			];
 
