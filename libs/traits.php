@@ -7,7 +7,7 @@ trait Messages {
 		$data = json_decode($JSONString);
 		$buffer = utf8_decode($data->Buffer);
 		
-		$this->SendDebug(__FUNCTION__, sprintf('Received data: %s', $buffer)), 0);
+		$this->SendDebug(__FUNCTION__, sprintf('Received data: %s', $buffer), 0);
 
 		$buffer = strtolower($buffer);
 
