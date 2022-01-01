@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+require_once(__DIR__ . '/../libs/traits.php');
+
 class iTachDeviceRelay extends IPSModule {
+	use Messsages;
 
 	public function Create() {
 		//Never delete this line!
@@ -77,12 +80,27 @@ class iTachDeviceRelay extends IPSModule {
 				break;
 		}
 	}
+	
+	private function HandleState(array $Msg) {
+		$port = $Msg[1];
+		$state = (int)$Msg[2];
 
-	public function ReceiveData($JSONString)
-	{
-		$data = json_decode($JSONString);
-		
-		$this->SendDebug(__FUNCTION__, sprintf('Received data: %s', utf8_decode($data->Buffer)), 0);
+		switch($port) {
+			case '1:1':
+				$this->SetValue('Relay1', $state==1?true:false);
+				break;
+			case '1:2':
+				$this->SetValue('Relay2', $state==1?true:false);
+				break;
+			case '1:3':
+				$this->SetValue('Relay3', $state==1?true:false);
+				break;
+			default: 
+				$msg = sprintf('Invalid port: %s', $port);
+
+				$this->LogMessage($msg, KL_ERROR);
+				$this->SendDebug(__FUNCTION__, $msg, 0);
+		}
 	}
 
 	public function SendRelayCommand(bool $State) {
@@ -90,7 +108,7 @@ class iTachDeviceRelay extends IPSModule {
 	}
 
 	public function SendRelayCommandEx(bool $State, string $Relay) {
-		$buffer = sprintf('setstate,%s,%d%c%c', $Relay, $State?1:0,13,10);
+		$buffer = sprintf('setstate,%s,%d%c', $Relay, $State?1:0,13);
 		
 		try {
 				$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $buffer)));
