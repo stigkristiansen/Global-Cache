@@ -20,6 +20,23 @@ class iTachDeviceIR extends IPSModule {
 		$this->RegisterPropertyString('IRCodes', '');
 	}
 
+	public function Destroy() {
+		//Never delete this line!
+		parent::Destroy();
+	}
+
+	public function ApplyChanges() {
+		//Never delete this line!
+		parent::ApplyChanges();
+	}
+
+	public function ReceiveData($JSONString)
+	{
+		$data = json_decode($JSONString);
+		
+		$this->SendDebug(__FUNCTION__, sprintf('Received data: %s', utf8_decode($data->Buffer)), 0);
+	}
+
 	
 	public function SendIRCommand(string $Device, string $Command) {
 		$this->SendIRCommandEx($Device, $Command, $this->ReadPropertyString("Port"));
@@ -39,7 +56,7 @@ class iTachDeviceIR extends IPSModule {
 		$buffer='';
 		foreach($codes as $code) {
 			if(strtolower($code['Device'])==$device && strtolower($code['Command'])==$command) {
-				$buffer = sprintf("sendir,%s,%d,%s%c%c",$Port, $this->InstanceID, $code['Code'], 13, 10);
+				$buffer = sprintf("sendir1,%s,%d,%s%c%c",$Port, $this->InstanceID, $code['Code'], 13, 10);
 				break;
 			}
 		}
