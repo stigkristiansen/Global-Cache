@@ -21,7 +21,7 @@ class iTachDeviceIR extends IPSModule {
 	}
 
 	
-	public function SendIRCommand(string $Device, sring $Command) {
+	public function SendIRCommand(string $Device, string $Command) {
 		$this->SendIRCommandEx($Device, $Command, $this->ReadPropertyString("Port"));
 	}
 

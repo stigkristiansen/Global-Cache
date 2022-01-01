@@ -151,6 +151,7 @@ class iTachDiscovery extends IPSModule {
 		}
 
 		foreach ($instances as $instanceId => $name) {
+			$this->SendDebug(__FUNCTION__, 'Enum instances: '. (string)$instanceId, 0);
 			$parentId = IPS_GetParent($instanceId);
 			$values[] = [
 				'Name' 		 	=> IPS_GetName($instanceId), //json_decode(IPS_GetConfiguration($instanceId),true)['Name'],
