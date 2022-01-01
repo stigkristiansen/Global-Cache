@@ -128,16 +128,16 @@ class iTachDiscovery extends IPSModule {
 					'moduleID'       => $this->GetModuleIdByModel($device['Model']),  
 					'name'			 => $name,
 					'configuration'	 => [
-						'Model' 		=> $device['Model'],
-						'Name'			=> $name
+						'Model' 	 => $device['Model'],
+						'Name'		 => $name
 					]
 				],
 				[
 					'moduleID'       => '{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}',  
 					'configuration'	 => [
-						'Open' 			=> true,
-						'Host'		=> $device['IPAddress'],
-						'Port'			=> 4998
+						'Open' 		 => true,
+						'Host'		 => $device['IPAddress'],
+						'Port'		 => 4998
 					]
 				]
 			];
