@@ -63,7 +63,7 @@ class iTachDeviceRelay extends IPSModule {
 	public function RequestAction($Ident, $Value) {
 		switch($Ident) {
 			case 'RequestState':
-				$this->SetTimerInterval('RequestState', 0)	
+				$this->SetTimerInterval('RequestState', 0);	
 				$this->RequestState();
 				break;
 			case 'Relay1':
