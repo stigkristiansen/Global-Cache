@@ -39,16 +39,16 @@ trait Messages {
 	}
 
 	private function HandleError(array $Msg) {
-		$error = (int)$Msg[1]);
+		$errorNum = (int)$Msg[1];
 
-        $errorText = $this->ErrorLookup($error);
+        $errorText = $this->ErrorLookup($errorNum);
 
         $this->LogMessage($error, KL_ERROR);
 		$this->SendDebug(__FUNCTION__, $error, 0);
 	}
 
 
-    private ErrorLookup(int $ErrorNumber) {
+    private ErrorLookup(int $ErrorNum) {
         return 'Generic Error Description';
     }
 	
