@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-include __DIR__ . '/../libs/traits.php';
-
 class iTachDeviceIR extends IPSModule {
-	use iTach;
 
 	public function Create() {
 		//Never delete this line!
