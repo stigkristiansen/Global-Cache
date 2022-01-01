@@ -48,7 +48,7 @@ trait Messages {
 	}
 
 
-    private ErrorLookup(int $ErrorNum) {
+    private function ErrorLookup(int $ErrorNum) {
         return 'Generic Error Description';
     }
 	
