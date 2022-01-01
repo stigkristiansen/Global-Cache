@@ -153,7 +153,7 @@ class iTachDiscovery extends IPSModule {
 			$values[] = [
 				'Name' 		 	=> IPS_GetName($instanceId), //json_decode(IPS_GetConfiguration($instanceId),true)['Name'],
 				'Model'		 	=> json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
-				'IPAddress'	 	=> json_decode(IPS_GetConfiguration($instanceId),true)['IPAddress'],
+				//'IPAddress'	 	=> json_decode(IPS_GetConfiguration($instanceId),true)['IPAddress'],
 				'instanceID' 	=> $instanceId
 			];
 
@@ -211,7 +211,10 @@ class iTachDiscovery extends IPSModule {
 
 		$this->SendDebug(__FUNCTION__, 'Searching for existing instances of iTach devices...', 0);
 
-		$instanceIds = IPS_GetInstanceListByModuleID('{C507B0A6-C990-9CC5-8752-FCA481CE66DD}');
+		$instanceIdsIR = IPS_GetInstanceListByModuleID('{C507B0A6-C990-9CC5-8752-FCA481CE66DD}');
+		$instanceIdsRelay = IPS_GetInstanceListByModuleID('{F505B016-C990-9CC5-8752-EDA48ECE66DF}');
+
+		$instanceIds = array_merge($instanceIdsIR, $instanceIdsRelay);
 		
 		foreach ($instanceIds as $instanceId) {
 			$instances[$instanceId] = IPS_GetProperty($instanceId, 'Name');
