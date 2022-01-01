@@ -57,7 +57,7 @@ class iTachDeviceRelay extends IPSModule {
 		$this->LogMessage($msg, KL_NOTIFY);
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
-		$this->SetTimerInterval('RequestState', 1000)	
+		$this->SetTimerInterval('RequestState', 1000);
 	}
 
 	public function RequestAction($Ident, $Value) {
