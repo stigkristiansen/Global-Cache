@@ -53,7 +53,7 @@ class iTachDeviceIR extends IPSModule {
 		$buffer='';
 		foreach($codes as $code) {
 			if(strtolower($code['Device'])==$device && strtolower($code['Command'])==$command) {
-				$buffer = sprintf("sendir,%s,%d,%s%c%c",$Port, $this->InstanceID, $code['Code'], 10, 10);
+				$buffer = sprintf("sendir,%s,%d,%s%c",$Port, $this->InstanceID, $code['Code'], 13);
 				break;
 			}
 		}
