@@ -169,7 +169,7 @@ class iTachDiscovery extends IPSModule {
 		$this->SendDebug(__FUNCTION__, 'Updating Discovery form completed', 0);
 	}
 
-	privte function GetModuleIdByModel(string $Model) {
+	private function GetModuleIdByModel(string $Model) {
 		switch(strtolower($Model)) {
 			case 'itachwf2ir':
 			case 'itachip2ir':
