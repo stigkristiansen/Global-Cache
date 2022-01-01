@@ -129,7 +129,6 @@ class iTachDiscovery extends IPSModule {
 					'name'			 => $name,
 					'configuration'	 => [
 						'Model' 		=> $device['Model'],
-						'IPAddress'		=> $device['IPAddress'],
 						'Name'			=> $name
 					]
 				],
