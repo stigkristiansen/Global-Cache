@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-include __DIR__ . "/../libs/traits.php";
+include __DIR__ . '/../libs/traits.php';
 
 class iTachDeviceIR extends IPSModule {
 	use iTach;
-	
+
 	public function Create() {
 		//Never delete this line!
 		parent::Create();
@@ -20,7 +20,7 @@ class iTachDeviceIR extends IPSModule {
 		$this->RegisterPropertyString('IRCodes', '');
 	}
 
-	public function SendIRCommand(string $Device, string $Command) {
+	public function SendIRCommand(string $Device, string $Command, string $Port = '') {
 		$codes = json_decode($this->ReadPropertyString('IRCodes'), true);
 				
 		$device = strtolower($Device);
@@ -29,7 +29,11 @@ class iTachDeviceIR extends IPSModule {
 		$buffer='';
 		foreach($codes as $code) {
 			if(strtolower($code['Device'])==$device && strtolower($code['Command'])==$command) {
-				$buffer = sprintf("sendir,%s,%d,%s%c%c",$this->ReadPropertyString("Port"), $this->InstanceID, $code['Code'], 13, 10);
+				if(strlen($Port)==0) {
+					$Port = $this->ReadPropertyString("Port");
+				}
+				
+				$buffer = sprintf("sendir,%s,%d,%s%c%c",$Port, $this->InstanceID, $code['Code'], 13, 10);
 				break;
 			}
 		}

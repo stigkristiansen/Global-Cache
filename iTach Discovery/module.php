@@ -125,7 +125,7 @@ class iTachDiscovery extends IPSModule {
 			
 			$value['create'] = [
 				[
-					'moduleID'       => '{C507B0A6-C990-9CC5-8752-FCA481CE66DD}',  
+					'moduleID'       => $this->GetModuleIdByModel($device['Model']),  
 					'name'			 => $name,
 					'configuration'	 => [
 						'Model' 		=> $device['Model'],
@@ -167,6 +167,19 @@ class iTachDiscovery extends IPSModule {
 		$this->UpdateFormField('SearchingInfo', 'visible', false);
 
 		$this->SendDebug(__FUNCTION__, 'Updating Discovery form completed', 0);
+	}
+
+	privte function GetModuleIdByModel(string $Model) {
+		switch(strtolower($Model)) {
+			case 'itachwf2ir':
+			case 'itachip2ir':
+				return '{C507B0A6-C990-9CC5-8752-FCA481CE66DD}';
+			case 'itachip2cc':
+			case 'itachwf2cc':	
+				return '{F505B016-C990-9CC5-8752-EDA48ECE66DF}';
+			default:
+				return '';
+		}
 	}
 
 	private function DiscoverGCDevices() : array {
