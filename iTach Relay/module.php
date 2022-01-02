@@ -17,11 +17,11 @@ class iTachDeviceRelay extends IPSModule {
 		$this->RegisterPropertyString('Name', '');
 		$this->RegisterPropertySting('Relay', '1:1');
 
-		$this->RegisterVariableBoolean('Relay1', 'Relay #1', '~switch', 0);
+		$this->RegisterVariableBoolean('Relay1', 'Relay #1', '~Switch', 0);
 		$this->EnableAction('Relay1');
-		$this->RegisterVariableBoolean('Relay2', 'Relay #2', '~switch', 1);
+		$this->RegisterVariableBoolean('Relay2', 'Relay #2', '~Switch', 1);
 		$this->EnableAction('Relay2');
-		$this->RegisterVariableBoolean('Relay3', 'Relay #3', '~switch', 2);
+		$this->RegisterVariableBoolean('Relay3', 'Relay #3', '~Switch', 2);
 		$this->EnableAction('Relay3');
 
 		$this->RegisterTimer('RequestState', 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "RequestState", 0);'); 

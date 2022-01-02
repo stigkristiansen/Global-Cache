@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+require_once(__DIR__ . '/../libs/traits.php');
+
 class iTachDeviceIR extends IPSModule {
+	use Messages;
 
 	public function Create() {
 		//Never delete this line!
@@ -15,6 +18,10 @@ class iTachDeviceIR extends IPSModule {
 
 		$this->RegisterPropertyString('Port', '1:1');
 		$this->RegisterPropertyString('IRCodes', '');
+
+		$this->RegisterVariableBoolean('IR1', 'IR #1', '~Alert.Reversed', 0);
+		$this->RegisterVariableBoolean('IR2', 'IR #2', '~Alert.Reversed', 1);
+		$this->RegisterVariableBoolean('IR3', 'IR #3', '~Alert.Reversed', 2);
 	}
 
 	public function Destroy() {
@@ -25,21 +32,36 @@ class iTachDeviceIR extends IPSModule {
 	public function ApplyChanges() {
 		//Never delete this line!
 		parent::ApplyChanges();
+
+		$this->SetValue('IR1', true);
+		$this->SetValue('IR2', true);
+		$this->SetValue('IR3', true);
 	}
 
-	public function ReceiveData($JSONString)
-	{
-		$data = json_decode($JSONString);
-		
-		$this->SendDebug(__FUNCTION__, sprintf('Received data: %s', utf8_decode($data->Buffer)), 0);
-	}
-
-	
 	public function SendIRCommand(string $Device, string $Command) {
 		$this->SendIRCommandEx($Device, $Command, $this->ReadPropertyString("Port"));
 	}
 
 	public function SendIRCommandEx(string $Device, string $Command, string $Port) {
+		switch($Port) {
+			case '1:1':
+				$ident = 'IR1';
+				break;
+			case '1:2':
+				$ident = 'IR2';
+				break;
+			case '1:3':
+				$ident = 'IR3';
+				break;
+			default:
+				$msg = sprintf('Invalid port specified: %s', $Port);
+			
+				$this->LogMessage($msg, KL_ERROR);
+				$this->SendDebug(__FUNCTION__, $msg, 0);		
+
+				return false;
+		}
+
 		$codes = json_decode($this->ReadPropertyString('IRCodes'), true);
 
 		if($codes==NULL) {
@@ -60,6 +82,7 @@ class iTachDeviceIR extends IPSModule {
 
 		if(strlen($buffer)>0) {
 			try {
+				$this->SetValue($ident, false);
 				$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $buffer)));
 				return true;
 			} catch (Exeption $ex) {
@@ -73,6 +96,25 @@ class iTachDeviceIR extends IPSModule {
 		} else {
 			$this->SendDebug(__FUNCTION__, sprintf('Unknown "Device" and/or "Command" (%s:%s)', $Device, $Command), 0);
 			return false;
+		}
+	}
+
+	private function HandleIR(array $Msg) {
+		switch($Msg[1]) {
+			case '1:1':
+				$this->SetValue('IR1', true);
+				break;
+			case '1:2':
+				$this->SetValue('IR2', true);
+				break;
+			case '1:3':
+				$this->SetValue('IR3', true);
+				break;
+			default: 
+				$msg = sprintf('Received invalid port from parent: %s', $port);
+
+				$this->LogMessage($msg, KL_ERROR);
+				$this->SendDebug(__FUNCTION__, $msg, 0);
 		}
 	}
 }

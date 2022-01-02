@@ -18,11 +18,15 @@ trait Messages {
 			if(count($msg)>1) {
 				switch(strtolower($msg[0])) {
 					case 'state':
-						HandleState($msg);
+						this->HandleState($msg);
 						break;
 					case 'err_0:0':
-						HandleError($msg);
+						this->HandleError($msg);
 						break;
+                    case 'completeir':
+                        $this->HandleIR($msg)
+                    default:
+                        $this->SendDebug(__FUNCTION__, 'Received data that is not handled!', 0);	
 				}
 			} else {
 				$error = 'Received incomplete data.';
