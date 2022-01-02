@@ -18,10 +18,10 @@ trait Messages {
 			if(count($msg)>1) {
 				switch(strtolower($msg[0])) {
 					case 'state':
-						this->HandleState($msg);
+						$this->HandleState($msg);
 						break;
 					case 'err_0:0':
-						this->HandleError($msg);
+						$this->HandleError($msg);
 						break;
                     case 'completeir':
                         $this->HandleIR($msg)
