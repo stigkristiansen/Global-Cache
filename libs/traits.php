@@ -23,6 +23,9 @@ trait Messages {
 					case 'err_0:0':
 						$this->HandleError($msg);
 						break;
+					case 'unknowncommand':
+						$this->HandleError($msg);
+						break;
                     case 'completeir':
                         $this->HandleIR($msg);
                     default:
