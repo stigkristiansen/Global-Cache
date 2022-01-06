@@ -17,7 +17,8 @@ trait Messages {
 			$msg = explode(',', $buffer);
 			if(count($msg)>1) {
 				switch(strtolower($msg[0])) {
-					case 'state':
+					case 'setstate':
+                    case 'state':    
 						$this->HandleState($msg);
 						break;
 					case 'err_0:0':
