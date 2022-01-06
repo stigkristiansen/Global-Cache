@@ -15,7 +15,7 @@ class iTachDeviceRelay extends IPSModule {
 
 		$this->RegisterPropertyString('Model', '');
 		$this->RegisterPropertyString('Name', '');
-		$this->RegisterPropertySting('Relay', '1:1');
+		$this->RegisterPropertyString('Relay', '1:1');
 
 		$this->RegisterVariableBoolean('Relay1', 'Relay #1', '~Switch', 0);
 		$this->EnableAction('Relay1');
