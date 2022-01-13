@@ -29,6 +29,9 @@ trait Messages {
 						break;
                     case 'completeir':
                         $this->HandleIR($msg);
+                    case 'ir':
+                        $this->HandleIRConfig($msg);
+                        break;
                     default:
                         $this->SendDebug(__FUNCTION__, 'Received data that is not handled!', 0);	
 				}

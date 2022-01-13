@@ -22,6 +22,8 @@ class iTachDeviceIR extends IPSModule {
 		$this->RegisterVariableBoolean('IR1', 'IR #1', '~Alert.Reversed', 0);
 		$this->RegisterVariableBoolean('IR2', 'IR #2', '~Alert.Reversed', 1);
 		$this->RegisterVariableBoolean('IR3', 'IR #3', '~Alert.Reversed', 2);
+
+		$this->GetIRConfig();
 	}
 
 	public function Destroy() {
@@ -37,6 +39,8 @@ class iTachDeviceIR extends IPSModule {
 		$this->SetValue('IR2', true);
 		$this->SetValue('IR3', true);
 	}
+
+
 
 	public function SendIRCommand(string $Device, string $Command) {
 		$this->SendIRCommandEx($Device, $Command, $this->ReadPropertyString("Port"));
@@ -111,10 +115,39 @@ class iTachDeviceIR extends IPSModule {
 				$this->SetValue('IR3', true);
 				break;
 			default: 
-				$msg = sprintf('Received invalid port from parent: %s', $port);
+				$msg = sprintf('Received invalid port from parent: %s', $Msg[1]);
 
 				$this->LogMessage($msg, KL_ERROR);
 				$this->SendDebug(__FUNCTION__, $msg, 0);
 		}
+	}
+
+	private function GetIRConfig() {
+		for($index=1;$index<3;$index++) {
+			$buffer = sprintf('get_IR,1:%d%c', $i, 13);
+			$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $buffer)));
+		}
+	}
+
+	private function HandleIRConfig(array $Msg) {
+		switch($Msg[1]) {
+			case '1:1':
+				
+				break;
+			case '1:2':
+				
+				break;
+			case '1:3':
+				
+				break;
+			default: 
+				$msg = sprintf('Received invalid port from parent: %s', $port);
+
+				$this->LogMessage($msg, KL_ERROR);
+				$this->SendDebug(__FUNCTION__, $msg, 0);
+				return;
+		}
+
+		$this->SendDebug(__FUNCTION__, sprintf('Port "%s" is configured to "%s"', $Msg[1], $Msg[2] ), 0);
 	}
 }
