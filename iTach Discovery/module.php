@@ -169,6 +169,7 @@ class iTachDiscovery extends IPSModule {
 		$this->UpdateFormField('SearchingInfo', 'visible', false);
 
 		$this->SendDebug(__FUNCTION__, 'Updating Discovery form completed', 0);
+		
 	}
 
 	private function GetModuleIdByModel(string $Model) {
