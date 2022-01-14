@@ -24,44 +24,47 @@
             ]
 	    },
         {
-            "type": "List",
-            "name": "IRCodes",
+            "type": "ExpansionPanel",
             "caption": "IR Codes",
-            "add": true,
-            "delete": true,
-            "columns": [
+            "items": [
                 {
-                    "caption": "Device",
-                    "name": "Device", 
-                    "width": "200px",
-                    "add": "Samsung TV",
-                    "edit": {
-                        "type": "ValidationTextBox"
-                    }
-                },
-                {
-                    "caption": "Command",
-                    "name": "Command",
-                    "width": "200px",
-                    "add": "Toggle Mute",
-                    "edit": {
-                        "type": "ValidationTextBox"
-                    }
-                },
-                {
-                    "caption": "Code",
-                    "name": "Code",
-                    "width": "auto",
-                    "add": "38000,1,1,172,172,22,64,22,64,22,64,22,21,22,21,22,21,22,21,22,21,22,64,22,64,22,64,22,21,22,21,22,21,22,21,22,21,22,64,22,64,22,64,22,64,22,21,22,21,22,21,22,21,22,21,22,21,22,21,22,21,22,64,22,64,22,64,22,64,22,1820",
-                    "edit": {
-                        "type": "ValidationTextBox"
-                    }
-                } 
-            ],
-            "values": []
-        },
-        {
-            "type":"Label", "caption":"Device COnfiguration:"
+                    "type": "List",
+                    "name": "IRCodes",
+                    "caption": "IR Codes",
+                    "add": true,
+                    "delete": true,
+                    "columns": [
+                        {
+                            "caption": "Device",
+                            "name": "Device", 
+                            "width": "200px",
+                            "add": "Samsung TV",
+                            "edit": {
+                                "type": "ValidationTextBox"
+                            }
+                        },
+                        {
+                            "caption": "Command",
+                            "name": "Command",
+                            "width": "200px",
+                            "add": "Toggle Mute",
+                            "edit": {
+                                "type": "ValidationTextBox"
+                            }
+                        },
+                        {
+                            "caption": "Code",
+                            "name": "Code",
+                            "width": "auto",
+                            "add": "38000,1,1,172,172,22,64,22,64,22,64,22,21,22,21,22,21,22,21,22,21,22,64,22,64,22,64,22,21,22,21,22,21,22,21,22,21,22,64,22,64,22,64,22,64,22,21,22,21,22,21,22,21,22,21,22,21,22,21,22,21,22,64,22,64,22,64,22,64,22,1820",
+                            "edit": {
+                                "type": "ValidationTextBox"
+                            }
+                        } 
+                    ],
+                    "values": []
+                }
+            ]
         },
         {
             "type": "ExpansionPanel",
