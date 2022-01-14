@@ -54,6 +54,14 @@ class iTachDeviceIR extends IPSModule {
 		}
 	}
 
+	private function Init() {
+		$msg = 'Initializing...';
+			
+		$this->SendDebug(__FUNCTION__, $msg, 0);
+
+		$this->SetBuffer('IncomingData', json_encode(''));
+	}
+
 	public function GetConfigurationForm() {
 		$this->GetIRConfig();		
 		
@@ -145,6 +153,8 @@ class iTachDeviceIR extends IPSModule {
 			$buffer = sprintf('get_IR,1:%d%c', $index, 13);
 			$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $buffer)));
 		}
+
+		$this->GetIPConfig();
 	}
 
 	private function HandleIRConfig(array $Msg) {

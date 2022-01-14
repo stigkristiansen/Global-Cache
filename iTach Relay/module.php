@@ -61,6 +61,14 @@ class iTachDeviceRelay extends IPSModule {
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
 		$this->SetTimerInterval('RequestState', 1000);
+
+		$this->SetBuffer('IncomingData', json_encode(''));
+	}
+
+	public function GetConfigurationForm() {
+		$this->GetIPConfig();
+		
+		$return = file_get_contents(__DIR__ . '/form.json');
 	}
 
 	public function RequestAction($Ident, $Value) {

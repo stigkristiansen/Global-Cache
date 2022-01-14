@@ -3,13 +3,6 @@
 declare(strict_types=1);
 
 trait Messages {
-    private function Init() {
-		$msg = 'Initializing...';
-			
-		$this->SendDebug(__FUNCTION__, $msg, 0);
-
-		$this->SetBuffer('IncomingData', json_encode(''));
-	}
 
     public function ReceiveData($JSONString) {
 		$data = json_decode($JSONString);
@@ -53,6 +46,9 @@ trait Messages {
                                 case 'ir':
                                     $this->HandleIRConfig($msg);
                                     break;
+                                case 'net':
+                                    $this->HandleIPConfig($msg);
+                                    break;
                                 default:
                                     $this->SendDebug(__FUNCTION__, 'Received data that is not handled!', 0);	
                         }
@@ -69,6 +65,16 @@ trait Messages {
 
         $this->SetBuffer('IncomingData', json_encode($newBuffer));
 	}
+
+    private function GetIPConfig() {
+        $buffer = sprintf('get_NET,0:1%c', 13);
+        $this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $buffer)));
+    }
+
+    private function HandleIPConfig(array $Msg){
+        $this->SendDebug(__FUNCTION__, sprintf('IP Config: %s,%s,%s,%s,%s', $Msg[2], $Msg[3], $Msg[4], $Msg[5], $Msg[6] ), 0);
+
+    }
 
 	private function HandleError(array $Msg) {
 		$errorNum = (int)$Msg[1];
