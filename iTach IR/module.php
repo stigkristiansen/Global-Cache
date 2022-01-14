@@ -36,6 +36,22 @@ class iTachDeviceIR extends IPSModule {
 		$this->SetValue('IR1', true);
 		$this->SetValue('IR2', true);
 		$this->SetValue('IR3', true);
+		$this->RegisterMessage(0, IPS_KERNELMESSAGE);
+
+		if (IPS_GetKernelRunlevel() == KR_READY) {
+			$this->Init();
+		}
+	}
+
+	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
+		parent::MessageSink($TimeStamp, $SenderID, $Message, $Data);
+
+		$this->SendDebug(__FUNCTION__, sprintf('Received a message: %d - %d - %d', $SenderID, $Message, $data[0]), 0);
+
+		if ($Message == IPS_KERNELMESSAGE && $Data[0] == KR_READY) {
+			$this->LogMessage('Detected "Kernel Ready"!', KL_NOTIFY);
+			$this->Init();
+		}
 	}
 
 	public function GetConfigurationForm() {

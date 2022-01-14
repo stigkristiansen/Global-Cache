@@ -3,6 +3,14 @@
 declare(strict_types=1);
 
 trait Messages {
+    private function Init() {
+		$msg = 'Initializing...';
+			
+		$this->SendDebug(__FUNCTION__, $msg, 0);
+
+		$this->SetBuffer('IncomingData', $json_encode(''));
+	}
+
     public function ReceiveData($JSONString) {
 		$data = json_decode($JSONString);
 		$buffer = utf8_decode($data->Buffer);
@@ -10,43 +18,58 @@ trait Messages {
 		$this->SendDebug(__FUNCTION__, sprintf('Received data: %s', $buffer), 0);
 
 		$buffer = strtolower($buffer);
+        $buffer = json_decode($this->GetBuffer('IncomingData')) . $buffer
+        
+        $newBuffer = '';
 
 		if(stripos($buffer, chr(13))!==false) {
-			$buffer = substr($buffer, 0, strlen($buffer)-1);
-			
-			$msg = explode(',', $buffer);
-			if(count($msg)>1) {
-				switch(strtolower($msg[0])) {
-					case 'setstate':
-                    case 'state':    
-						$this->HandleState($msg);
-						break;
-					case 'err_0:0':
-						$this->HandleError($msg);
-						break;
-					case 'unknowncommand':
-						$this->HandleError($msg);
-						break;
-                    case 'completeir':
-                        $this->HandleIR($msg);
-                    case 'ir':
-                        $this->HandleIRConfig($msg);
-                        break;
-                    default:
-                        $this->SendDebug(__FUNCTION__, 'Received data that is not handled!', 0);	
-				}
-			} else {
-				$error = 'Received incomplete data.';
-
-				$this->LogMessage($error, KL_ERROR);
-				$this->SendDebug(__FUNCTION__, $error, 0);	
-			}
+			$msgs = explode(chr(13), $buffer);
+            $max = count($msgs)-1;
+    
+            if(substr($buffer, strlen($buffer)-1, 1) != chr(13)) {
+                $newBuffer = $msgs[$max];
+                $max = $max-1;
+            } 
+            
+            for($index=0;$index<=$max;$index++) {
+                $msg = explode(',', $msgs[$index]);
+                
+                if(count($msg)>1) {
+                    switch($msg[0]) {
+                        case 'setstate':
+                            case 'state':    
+                                $this->HandleState($msg);
+                                break;
+                            case 'err_0:0':
+                                $this->HandleError($msg);
+                                break;
+                            case 'unknowncommand':
+                                $this->HandleError($msg);
+                                break;
+                            case 'completeir':
+                                $this->HandleIR($msg);
+                            case 'ir':
+                                $this->HandleIRConfig($msg);
+                                break;
+                            default:
+                                $this->SendDebug(__FUNCTION__, 'Received data that is not handled!', 0);	
+                    }
+                }  else {
+                    $error = 'Received incomplete data.';
+    
+                    $this->LogMessage($error, KL_ERROR);
+                    $this->SendDebug(__FUNCTION__, $error, 0);	
+                }
+            }
 		} else {
-			$error = 'Received incomplete data.';
+			$error = 'Received incomplete data. Saving for lates usage...';
+            $newBuffer = $buffer;
 
 			$this->LogMessage($error, KL_ERROR);
 			$this->SendDebug(__FUNCTION__, $error, 0);
 		}
+
+        $this->SetBuffer('IncomingData', $json_encode($newBuffer));
 	}
 
 	private function HandleError(array $Msg) {
