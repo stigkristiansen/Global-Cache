@@ -8,7 +8,7 @@ trait Messages {
 			
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
-		$this->SetBuffer('IncomingData', $json_encode(''));
+		$this->SetBuffer('IncomingData', json_encode(''));
 	}
 
     public function ReceiveData($JSONString) {
@@ -69,7 +69,7 @@ trait Messages {
 			$this->SendDebug(__FUNCTION__, $error, 0);
 		}
 
-        $this->SetBuffer('IncomingData', $json_encode($newBuffer));
+        $this->SetBuffer('IncomingData', json_encode($newBuffer));
 	}
 
 	private function HandleError(array $Msg) {
