@@ -32,34 +32,36 @@ trait Messages {
             } 
             
             for($index=0;$index<=$max;$index++) {
-                $this->SendDebug(__FUNCTION__, sprintf('Processing message "%s..."', $msgs[$index]), 0);	
-                $msg = explode(',', $msgs[$index]);
-                
-                if(count($msg)>1) {
-                    switch($msg[0]) {
-                        case 'setstate':
-                            case 'state':    
-                                $this->HandleState($msg);
-                                break;
-                            case 'err_0:0':
-                                $this->HandleError($msg);
-                                break;
-                            case 'unknowncommand':
-                                $this->HandleError($msg);
-                                break;
-                            case 'completeir':
-                                $this->HandleIR($msg);
-                            case 'ir':
-                                $this->HandleIRConfig($msg);
-                                break;
-                            default:
-                                $this->SendDebug(__FUNCTION__, 'Received data that is not handled!', 0);	
+                if(strlen($msgs[index]>0)) {
+                    $this->SendDebug(__FUNCTION__, sprintf('Processing message "%s"...', $msgs[$index]), 0);	
+                    $msg = explode(',', $msgs[$index]);
+                    
+                    if(count($msg)>1) {
+                        switch($msg[0]) {
+                            case 'setstate':
+                                case 'state':    
+                                    $this->HandleState($msg);
+                                    break;
+                                case 'err_0:0':
+                                    $this->HandleError($msg);
+                                    break;
+                                case 'unknowncommand':
+                                    $this->HandleError($msg);
+                                    break;
+                                case 'completeir':
+                                    $this->HandleIR($msg);
+                                case 'ir':
+                                    $this->HandleIRConfig($msg);
+                                    break;
+                                default:
+                                    $this->SendDebug(__FUNCTION__, 'Received data that is not handled!', 0);	
+                        }
+                    }  else {
+                        $error = 'Received incomplete data.';
+        
+                        $this->LogMessage($error, KL_ERROR);
+                        $this->SendDebug(__FUNCTION__, $error, 0);	
                     }
-                }  else {
-                    $error = 'Received incomplete data.';
-    
-                    $this->LogMessage($error, KL_ERROR);
-                    $this->SendDebug(__FUNCTION__, $error, 0);	
                 }
             }
 		} else {
