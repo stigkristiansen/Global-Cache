@@ -57,19 +57,14 @@ trait Messages {
                                     $this->SendDebug(__FUNCTION__, 'Received data that is not handled!', 0);	
                         }
                     }  else {
-                        $error = 'Received incomplete data.';
-        
-                        $this->LogMessage($error, KL_ERROR);
-                        $this->SendDebug(__FUNCTION__, $error, 0);	
+                        $this->SendDebug(__FUNCTION__, 'Received incomplete data.', 0);	
                     }
                 }
             }
 		} else {
-			$error = 'Received incomplete data. Saving for lates usage...';
-            $newBuffer = $buffer;
+			$newBuffer = $buffer;
 
-			$this->LogMessage($error, KL_ERROR);
-			$this->SendDebug(__FUNCTION__, $error, 0);
+			$this->SendDebug(__FUNCTION__, 'Received incomplete data. Saving for lates usage...', 0);
 		}
 
         $this->SetBuffer('IncomingData', json_encode($newBuffer));
