@@ -22,8 +22,6 @@ class iTachDeviceIR extends IPSModule {
 		$this->RegisterVariableBoolean('IR1', 'IR #1', '~Alert.Reversed', 0);
 		$this->RegisterVariableBoolean('IR2', 'IR #2', '~Alert.Reversed', 1);
 		$this->RegisterVariableBoolean('IR3', 'IR #3', '~Alert.Reversed', 2);
-
-		$this->GetIRConfig();
 	}
 
 	public function Destroy() {
@@ -40,7 +38,11 @@ class iTachDeviceIR extends IPSModule {
 		$this->SetValue('IR3', true);
 	}
 
-
+	public function GetConfigurationForm() {
+		$this->GetIRConfig();		
+		
+		$return = file_get_contents(__DIR__ . '/form.json');
+	}
 
 	public function SendIRCommand(string $Device, string $Command) {
 		$this->SendIRCommandEx($Device, $Command, $this->ReadPropertyString("Port"));
