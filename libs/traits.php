@@ -74,8 +74,11 @@ trait Messages {
     private function HandleIPConfig(array $Msg){
         $this->SendDebug(__FUNCTION__, sprintf('IP Config: %s,%s,%s,%s,%s', $Msg[2], $Msg[3], $Msg[4], $Msg[5], $Msg[6] ), 0);
 
-        $this->UpdateFormField('Locked', 'value', $Msg[2]=='unlocked');
-
+        $this->UpdateFormField('Locked', 'value', $Msg[2]=='locked');
+        $this->UpdateFormField('DHCP', 'value', $Msg[3]!='static');
+        $this->UpdateFormField('IPAddress', 'value', $Msg[4]);
+        $this->UpdateFormField('Mask', 'value', $Msg[5]);
+        $this->UpdateFormField('Gateway', 'value', $Msg[6]);
     }
 
 	private function HandleError(array $Msg) {
