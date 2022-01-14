@@ -59,6 +59,40 @@
                 } 
             ],
             "values": []
+        },
+        {
+            "type":"Label", "caption":"Device COnfiguration:"
+        },
+        {
+            "type": "ExpansionPanel",
+            "caption": "Network configuration",
+            "items": [
+                {
+                    "type":"RowLayout",
+                    "items": [
+                        {
+                            "type":"CheckBox", "name":"Lock", "caption":"Lock", "enabled":false
+                        },
+                        {
+                            "type":"CheckBox", "name":"DHCP", "caption":"DHCP", "enabled":false
+                        }
+                    ]
+                },
+                {
+                    "type":"RowLayout",
+                    "items": [
+                        {
+                            "type":"ValidationTextBox", "name":"IPAddress", "caption":"IP address", "enabled":false
+                        },
+                        {
+                            "type":"ValidationTextBox", "name":"Mask", "caption":"Mask", "enabled":false
+                        },
+                        {
+                            "type":"ValidationTextBox", "name":"Gateway", "caption":"Gateway", "enabled":false
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "status": []
