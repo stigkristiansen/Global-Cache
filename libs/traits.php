@@ -18,7 +18,7 @@ trait Messages {
 		$this->SendDebug(__FUNCTION__, sprintf('Received data: %s', $buffer), 0);
 
 		$buffer = strtolower($buffer);
-        $buffer = json_decode($this->GetBuffer('IncomingData')) . $buffer
+        $buffer = json_decode($this->GetBuffer('IncomingData')) . $buffer;
         
         $newBuffer = '';
 
