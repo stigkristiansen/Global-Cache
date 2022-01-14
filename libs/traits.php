@@ -32,6 +32,7 @@ trait Messages {
             } 
             
             for($index=0;$index<=$max;$index++) {
+                $this->SendDebug(__FUNCTION__, sprintf('Processing message "%s..."', $msgs[$index]), 0);	
                 $msg = explode(',', $msgs[$index]);
                 
                 if(count($msg)>1) {
