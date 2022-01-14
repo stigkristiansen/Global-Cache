@@ -74,7 +74,7 @@
                     "type":"RowLayout",
                     "items": [
                         {
-                            "type":"CheckBox", "name":"Lock", "caption":"Lock", "enabled":false
+                            "type":"CheckBox", "name":"Locked", "caption":"Locked", "enabled":false
                         },
                         {
                             "type":"CheckBox", "name":"DHCP", "caption":"DHCP", "enabled":false

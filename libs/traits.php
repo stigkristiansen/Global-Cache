@@ -74,6 +74,8 @@ trait Messages {
     private function HandleIPConfig(array $Msg){
         $this->SendDebug(__FUNCTION__, sprintf('IP Config: %s,%s,%s,%s,%s', $Msg[2], $Msg[3], $Msg[4], $Msg[5], $Msg[6] ), 0);
 
+        $this->UpdateFormField('Locked', 'value', $Msg[2]=='unlocked');
+
     }
 
 	private function HandleError(array $Msg) {
