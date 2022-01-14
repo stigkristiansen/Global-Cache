@@ -125,7 +125,7 @@ class iTachDeviceIR extends IPSModule {
 	}
 
 	private function GetIRConfig() {
-		for($index=1;$index<3;$index++) {
+		for($index=1;$index<4;$index++) {
 			$buffer = sprintf('get_IR,1:%d%c', $index, 13);
 			$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $buffer)));
 		}
