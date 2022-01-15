@@ -208,6 +208,8 @@ class iTachDiscovery extends IPSModule {
 		foreach($discoveredDevices as $device) {
 			$ipAddress = substr($device['config-url'], 7);
 
+			$devices[$device['uuid']] = ['Model' => $device['model'], 'IPAddress' => $ipAddress];
+
 			switch(strtolower($device['model'])) {
 				case 'itachwf2ir':
 				case 'itachip2ir':
@@ -217,8 +219,6 @@ class iTachDiscovery extends IPSModule {
 				default:
 					$config = [];
 			}
-
-			$devices[$device['uuid']] = ['Model' => $device['model'], 'IPAddress' => $ipAddress];
 			
 			if(count($config)>0) {
 				$devices[$device['uuid']]['Mask'] = $config['NET']['Mask'];
