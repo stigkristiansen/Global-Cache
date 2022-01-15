@@ -80,6 +80,14 @@
                             "type":"CheckBox", "name":"DHCP", "caption":"DHCP", "enabled":false
                         }
                     ]
+                },
+                {
+                    "type":"RowLayout",
+                    "items": [
+                        {
+                            "type":"ValidationTextBox", "name":"IPAddress", "caption":"IP address", "enabled":false
+                        }
+                    ]
                 }
             ]
         }
