@@ -19,6 +19,12 @@ class iTachDeviceIR extends IPSModule {
 		$this->RegisterPropertyString('Port', '1:1');
 		$this->RegisterPropertyString('IRCodes', '');
 
+		$this->RegisterPropertyString('IPAddress', '');
+		$this->RegisterPropertyString('Mask', '');
+		$this->RegisterPropertyString('Gateway', '');
+		$this->RegisterPropertyBoolean('DHCP', false);
+		$this->RegisterPropertyBoolean('Locked', false);
+
 		$this->RegisterVariableBoolean('IR1', 'IR #1', '~Alert.Reversed', 0);
 		$this->RegisterVariableBoolean('IR2', 'IR #2', '~Alert.Reversed', 1);
 		$this->RegisterVariableBoolean('IR3', 'IR #3', '~Alert.Reversed', 2);
