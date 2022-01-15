@@ -19,6 +19,10 @@ class iTachDeviceIR extends IPSModule {
 		$this->RegisterPropertyString('Port', '1:1');
 		$this->RegisterPropertyString('IRCodes', '');
 
+		$this->RegisterPropertyString('1:1', 'NA');
+		$this->RegisterPropertyString('1:2', 'NA');
+		$this->RegisterPropertyString('1:3', 'NA');
+
 		$this->RegisterPropertyString('IPAddress', '');
 		$this->RegisterPropertyString('Mask', '');
 		$this->RegisterPropertyString('Gateway', '');

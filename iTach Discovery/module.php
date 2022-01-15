@@ -131,7 +131,7 @@ class iTachDiscovery extends IPSModule {
 						'Model' 	 => $device['Model'],
 						'Name'		 => $name,
 						'IPAddress'  => $device['IPAddress'],
-						//'Mask'		 => $device['Mask'],
+						'Mask'		 => $device['Mask'],
 						'Gateway'	 => $device['Gateway'],
 						'DHCP'		 => $device['DHCP'],
 						'Locked'	 => $device['Locked']
@@ -260,7 +260,6 @@ class iTachDiscovery extends IPSModule {
 			$query.= sprintf('get_IR,1:%d%c', $index, 13);    
 		}
 
-
 		return $query;
 	}
 
@@ -297,8 +296,6 @@ class iTachDiscovery extends IPSModule {
 				
 				$config[] = $buffer;
 			}
-
-			$this->SendDebug(__FUNCTION__, 'Device config is: ' . json_encode($config), 0);	
 	
 			return $this->FormatDeviceConfig($config);
 	
@@ -339,6 +336,8 @@ class iTachDiscovery extends IPSModule {
 				}
 			} 
 		}
+
+		$this->SendDebug(__FUNCTION__, 'Device config is: ' . json_encode($config), 0);	
 	
 		return $config;
 	}

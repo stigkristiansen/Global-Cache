@@ -68,6 +68,54 @@
         },
         {
             "type": "ExpansionPanel",
+            "caption": "Connector Configuration",
+            "items": [
+                {
+                    "type":"RowLayout",
+                    "items": [
+                        {
+                            "type": "Select",
+                            "name": "1:1",
+                            "caption": "Connector 1",
+                            "options": [
+                                { "caption": " ", "value": "NA" },
+                                { "caption": "IR Out", "value": "IR" },
+                                { "caption": "Sensor In", "value": "SENSOR" },
+                                { "caption": "Sensor Notify", "value": "SENSOR_NOTIFY" },
+                                { "caption": "LED Lightning", "value": "LED_LIGHTING" }
+                            ]
+                        },
+                        {
+                            "type": "Select",
+                            "name": "1:2",
+                            "caption": "Connector 2",
+                            "options": [
+                                { "caption": " ", "value": "NA" },
+                                { "caption": "IR Out", "value": "IR" },
+                                { "caption": "Sensor In", "value": "SENSOR" },
+                                { "caption": "Sensor Notify", "value": "SENSOR_NOTIFY" },
+                                { "caption": "LED Lightning", "value": "LED_LIGHTING" }
+                            ]
+                        },
+                        {
+                            "type": "Select",
+                            "name": "1:3",
+                            "caption": "Connector 3",
+                            "options": [
+                                { "caption": " ", "value": "NA" },
+                                { "caption": "IR Out", "value": "IR" },
+                                { "caption": "Sensor In", "value": "SENSOR" },
+                                { "caption": "Sensor Notify", "value": "SENSOR_NOTIFY" },
+                                { "caption": "IR Blaster", "value": "IR_BLASTER" },
+                                { "caption": "LED Lightning", "value": "LED_LIGHTING" }
+                            ]
+                        }
+                    ]
+                }    
+            ]   
+        },
+        {
+            "type": "ExpansionPanel",
             "caption": "Network configuration",
             "items": [
                 {
@@ -88,6 +136,9 @@
                             "type":"ValidationTextBox", "name":"IPAddress", "caption":"IP address", "enabled":false
                         },
                         {
+                            "type":"ValidationTextBox", "name":"Mask", "caption":"Mask", "enabled":false
+                        },
+                        {
                             "type":"ValidationTextBox", "name":"Gateway", "caption":"Gateway", "enabled":false
                         }
                     ]
@@ -97,7 +148,4 @@
     ],
     "status": []
 }
-
-
-
 
