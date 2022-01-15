@@ -134,7 +134,7 @@ class iTachDiscovery extends IPSModule {
 						'Mask'		 => $device['Mask'],
 						'Gateway'	 => $device['Gateway'],
 						'DHCP'		 => $device['DHCP'],
-						'Locked'	 => $device['Locked']
+						'Locked'	 => $device['Locked'],
 						'1:1'		 => $device['1:1'],
 						'1:2'		 => $device['1:2'],
 						'1:3'		 => $device['1:3']
