@@ -88,10 +88,7 @@
                             "type":"ValidationTextBox", "name":"IPAddress", "caption":"IP address", "enabled":false
                         },
                         {
-                            "type":"ValidationTextBox", "name":"Mask", "caption":"Mask", "enabled":false
-                        },
-                        {
-                            "type":"ValidationTextBox", "name":"GW", "caption":"Gateway", "enabled":false
+                            "type":"ValidationTextBox", "name":"Gateway", "caption":"Gateway", "enabled":false
                         }
                     ]
                 }
