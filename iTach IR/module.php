@@ -63,7 +63,7 @@ class iTachDeviceIR extends IPSModule {
 	}
 
 	public function GetConfigurationForm() {
-		$this->GetIRConfig();		
+		//$this->GetIRConfig();		
 		
 		$return = file_get_contents(__DIR__ . '/form.json');
 	}
