@@ -208,11 +208,11 @@ class iTachDiscovery extends IPSModule {
 		foreach($discoveredDevices as $device) {
 			$ipAddress = substr($device['config-url'], 7);
 
-			switch($device['model']) {
+			switch(strtolower($device['model'])) {
 				case 'itachwf2ir':
 				case 'itachip2ir':
-					$config = $this->GetIRConfig($ipAddress, GetIRQueryString());
-					$configIndex = 'IR';
+					$config = $this->GetDeviceConfig($ipAddress, GetIRQueryString());
+					//$configIndex = 'IR';
 					break;
 				default:
 					$config = [];
