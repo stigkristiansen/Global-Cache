@@ -301,7 +301,7 @@ class iTachDiscovery extends IPSModule {
 					break;
 				} 
 				
-				$config[] = $buffer;
+				$config[] = substr($buffer, 0, strlen($buffer)-1);
 			}
 	
 			return $this->FormatDeviceConfig($config);
