@@ -295,6 +295,8 @@ class iTachDiscovery extends IPSModule {
 				
 				$config[] = $buffer;
 			}
+
+			$this->SendDebug(__FUNCTION__, 'Device config is: ' . json_encode($config), 0);	
 	
 			return $this->FormatDeviceConfig($config);
 	
