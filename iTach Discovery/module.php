@@ -220,10 +220,12 @@ class iTachDiscovery extends IPSModule {
 
 			$devices[$device['uuid']] = ['Model' => $device['model'], 'IPAddress' => $ipAddress];
 			
-			$devices[$device['uuid']]['Mask'] = $config['NET']['Mask'];
-			$devices[$device['uuid']]['Gateway'] = $config['NET']['Gateway'];
-			$devices[$device['uuid']]['DHCP'] = $config['NET']['DHCP'];
-			$devices[$device['uuid']]['Locked'] = $config['NET']['Locked'];
+			if(count($config()>0) {
+				$devices[$device['uuid']]['Mask'] = $config['NET']['Mask'];
+				$devices[$device['uuid']]['Gateway'] = $config['NET']['Gateway'];
+				$devices[$device['uuid']]['DHCP'] = $config['NET']['DHCP'];
+				$devices[$device['uuid']]['Locked'] = $config['NET']['Locked'];
+			}
 		}
 	
 		$this->SendDebug(__FUNCTION__, sprintf('Found %d iTach device(s)', count($devices)), 0);
