@@ -211,7 +211,7 @@ class iTachDiscovery extends IPSModule {
 			switch(strtolower($device['model'])) {
 				case 'itachwf2ir':
 				case 'itachip2ir':
-					$config = $this->GetDeviceConfig($ipAddress, GetIRQueryString());
+					$config = $this->GetDeviceConfig($ipAddress, $this->GetIRQueryString());
 					//$configIndex = 'IR';
 					break;
 				default:
