@@ -21,7 +21,7 @@ class iTachDeviceIR extends IPSModule {
 
 		$this->RegisterPropertyString('IPAddress', '');
 		$this->RegisterPropertyString('Mask', '');
-		$this->RegisterPropertyString('Gateway', '');
+		$this->RegisterPropertyString('GW', '');
 		$this->RegisterPropertyBoolean('DHCP', true);
 		$this->RegisterPropertyBoolean('Locked', true);
 

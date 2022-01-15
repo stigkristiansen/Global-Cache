@@ -132,7 +132,7 @@ class iTachDiscovery extends IPSModule {
 						'Name'		 => $name,
 						'IPAddress'  => $device['IPAddress'],
 						'Mask'		 => $device['Mask'],
-						'Gateway'	 => $device['Gateway'],
+						'GW'	 => $device['GW'],
 						'DHCP'		 => $device['DHCP'],
 						'Locked'	 => $device['Locked']
 					]
@@ -222,7 +222,7 @@ class iTachDiscovery extends IPSModule {
 			
 			if(count($config)>0) {
 				$devices[$device['uuid']]['Mask'] = $config['NET']['Mask'];
-				$devices[$device['uuid']]['Gateway'] = $config['NET']['Gateway'];
+				$devices[$device['uuid']]['GW'] = $config['NET']['Gateway'];
 				$devices[$device['uuid']]['DHCP'] = $config['NET']['DHCP'];
 				$devices[$device['uuid']]['Locked'] = $config['NET']['Locked'];
 			}
