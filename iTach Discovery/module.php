@@ -135,6 +135,9 @@ class iTachDiscovery extends IPSModule {
 						'Gateway'	 => $device['Gateway'],
 						'DHCP'		 => $device['DHCP'],
 						'Locked'	 => $device['Locked']
+						'1:1'		 => $device['1:1'],
+						'1:2'		 => $device['1:2'],
+						'1:3'		 => $device['1:3']
 					]
 				],
 				[
@@ -214,7 +217,11 @@ class iTachDiscovery extends IPSModule {
 				case 'itachwf2ir':
 				case 'itachip2ir':
 					$config = $this->GetDeviceConfig($ipAddress, $this->GetIRQueryString());
-					//$configIndex = 'IR';
+					if(count($config)>0) {
+						$devices[$device['uuid']]['1:1'] = strtoupper($config['IR']['1:1']['Mode']);
+						$devices[$device['uuid']]['1:2'] = strtoupper($config['IR']['1:2']['Mode']);		
+						$devices[$device['uuid']]['1:3'] = strtoupper($config['IR']['1:3']['Mode']);
+					}
 					break;
 				default:
 					$config = [];
