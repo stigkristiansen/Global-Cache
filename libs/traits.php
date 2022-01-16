@@ -65,7 +65,7 @@ trait Messages {
 	}
 
     private function GetConfig(string $Model) {
-        
+        $query = '';
         switch(strtolower($Model)) {
             case 'itachwf2ir':
             case 'itachip2ir':
