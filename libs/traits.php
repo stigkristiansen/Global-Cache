@@ -67,16 +67,14 @@ trait Messages {
     private function GetConfig(string $Model) {
         
         switch(strtolower($Model)) {
-            switch(strtolower($Model)) {
-                case 'itachwf2ir':
-                case 'itachip2ir':
-                    for($index=1;$index<4;$index++) {
-                        $query .= sprintf('get_IR,1:%d%c', $index, 13);
-                    }
-                    break;
-                default:
-                    $query = '';
-            
+            case 'itachwf2ir':
+            case 'itachip2ir':
+                for($index=1;$index<4;$index++) {
+                    $query .= sprintf('get_IR,1:%d%c', $index, 13);
+                }
+                break;
+            default:
+                $query = '';
         }
 
         if(strlen(@query)>0) {
