@@ -66,7 +66,6 @@ class iTachDeviceRelay extends IPSModule {
 	}
 
 	public function GetConfigurationForm() {
-		$this->GetIPConfig();
 		
 		$return = file_get_contents(__DIR__ . '/form.json');
 	}

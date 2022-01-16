@@ -44,10 +44,8 @@ trait Messages {
                                 case 'completeir':
                                     $this->HandleIR($msg);
                                 case 'ir':
-                                    $this->HandleIRConfig($msg);
-                                    break;
-                                case 'net':
-                                    $this->HandleIPConfig($msg);
+                                case 'serial':
+                                    $this->HandleConfig($msg);
                                     break;
                                 default:
                                     $this->SendDebug(__FUNCTION__, 'Received data that is not handled!', 0);	
@@ -66,19 +64,24 @@ trait Messages {
         $this->SetBuffer('IncomingData', json_encode($newBuffer));
 	}
 
-    private function GetIPConfig() {
-        $buffer = sprintf('get_NET,0:1%c', 13);
-        $this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $buffer)));
-    }
+    private function GetConfig(string $Model) {
+        
+        switch(strtolower($Model)) {
+            switch(strtolower($Model)) {
+                case 'itachwf2ir':
+                case 'itachip2ir':
+                    for($index=1;$index<4;$index++) {
+                        $query .= sprintf('get_IR,1:%d%c', $index, 13);
+                    }
+                    break;
+                default:
+                    $query = '';
+            
+        }
 
-    private function HandleIPConfig(array $Msg){
-        $this->SendDebug(__FUNCTION__, sprintf('IP Config: %s,%s,%s,%s,%s', $Msg[2], $Msg[3], $Msg[4], $Msg[5], $Msg[6] ), 0);
-
-        $this->UpdateFormField('Locked', 'value', $Msg[2]=='locked');
-        $this->UpdateFormField('DHCP', 'value', $Msg[3]!='static');
-        $this->UpdateFormField('IPAddress', 'value', $Msg[4]);
-        $this->UpdateFormField('Mask', 'value', $Msg[5]);
-        $this->UpdateFormField('Gateway', 'value', $Msg[6]);
+        if(strlen(@query)>0) {
+            $this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $query)));
+        }
     }
 
 	private function HandleError(array $Msg) {

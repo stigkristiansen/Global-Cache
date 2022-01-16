@@ -23,12 +23,6 @@ class iTachDeviceIR extends IPSModule {
 		$this->RegisterPropertyString('1:2', 'NA');
 		$this->RegisterPropertyString('1:3', 'NA');
 
-		$this->RegisterPropertyString('IPAddress', '');
-		$this->RegisterPropertyString('Mask', '');
-		$this->RegisterPropertyString('Gateway', '');
-		$this->RegisterPropertyBoolean('DHCP', true);
-		$this->RegisterPropertyBoolean('Locked', true);
-
 		$this->RegisterVariableBoolean('IR1', 'IR #1', '~Alert.Reversed', 0);
 		$this->RegisterVariableBoolean('IR2', 'IR #2', '~Alert.Reversed', 1);
 		$this->RegisterVariableBoolean('IR3', 'IR #3', '~Alert.Reversed', 2);
@@ -51,6 +45,8 @@ class iTachDeviceIR extends IPSModule {
 		if (IPS_GetKernelRunlevel() == KR_READY) {
 			$this->Init();
 		}
+
+		$this->UpdateConnectorConfig();
 	}
 
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
@@ -64,6 +60,10 @@ class iTachDeviceIR extends IPSModule {
 		}
 	}
 
+	private function UpdateConnectorConfig() {
+
+	}
+
 	private function Init() {
 		$msg = 'Initializing...';
 			
@@ -73,7 +73,7 @@ class iTachDeviceIR extends IPSModule {
 	}
 
 	public function GetConfigurationForm() {
-		//$this->GetIRConfig();		
+		$this->GetConfig($this->ReadPropertyString('Model'));		
 		
 		$return = file_get_contents(__DIR__ . '/form.json');
 	}
@@ -158,34 +158,9 @@ class iTachDeviceIR extends IPSModule {
 		}
 	}
 
-	private function GetIRConfig() {
-		for($index=1;$index<4;$index++) {
-			$buffer = sprintf('get_IR,1:%d%c', $index, 13);
-			$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $buffer)));
-		}
+	private function HandleConfig(array $Msg) {
 
-		$this->GetIPConfig();
+		$this->SendDebug(__FUNCTION__, sprintf('Received configuration "%s"', json_encode($Msg) ), 0);
 	}
 
-	private function HandleIRConfig(array $Msg) {
-		switch($Msg[1]) {
-			case '1:1':
-				
-				break;
-			case '1:2':
-				
-				break;
-			case '1:3':
-				
-				break;
-			default: 
-				$msg = sprintf('Received invalid port from parent: %s', $port);
-
-				$this->LogMessage($msg, KL_ERROR);
-				$this->SendDebug(__FUNCTION__, $msg, 0);
-				return;
-		}
-
-		$this->SendDebug(__FUNCTION__, sprintf('Port "%s" is configured to "%s"', $Msg[1], $Msg[2] ), 0);
-	}
 }
