@@ -61,7 +61,7 @@ class iTachDeviceIR extends IPSModule {
 	}
 
 	private function UpdateConnectorConfig() {
-		$settings=sprintf('set_IR,1.1,%s%cset_IR,1.2,%s%cset_IR,1.3,%s%c', 
+		$settings=sprintf('set_IR,1:1,%s%cset_IR,1:2,%s%cset_IR,1:3,%s%c', 
 			$this->ReadPropertyString('1:1'), 13, $this->ReadPropertyString('1:2'), 13, $this->ReadPropertyString('1:3'), 13);
 
 		$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $settings)));
