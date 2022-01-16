@@ -5,7 +5,7 @@ declare(strict_types=1);
 require_once(__DIR__ . '/../libs/traits.php');
 
 class iTachDeviceRelay extends IPSModule {
-	use Messages;
+	use iTach;
 
 	public function Create() {
 		//Never delete this line!

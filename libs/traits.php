@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-trait Messages {
+trait iTach {
 
     public function ReceiveData($JSONString) {
 		$data = json_decode($JSONString);

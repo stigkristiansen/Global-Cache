@@ -123,7 +123,7 @@ class iTachDiscovery extends IPSModule {
 				$value['Name'] = IPS_GetName($instanceId);
 			} 
 			
-			$value['create'] = [
+			$value['create'][] = 
 				[
 					'moduleID'       => $this->GetModuleIdByModel($device['Model']),  
 					'name'			 => $name,
@@ -134,7 +134,8 @@ class iTachDiscovery extends IPSModule {
 						'1:2'		 => $device['1:2'],
 						'1:3'		 => $device['1:3']
 					]
-				],
+				];
+			$value['create'][] =
 				[
 					'moduleID'       => '{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}',  
 					'configuration'	 => [
@@ -142,8 +143,8 @@ class iTachDiscovery extends IPSModule {
 						'Host'		 => $device['IPAddress'],
 						'Port'		 => 4998
 					]
-				]
-			];
+				];
+			
 		
 			$values[] = $value;
 		}
