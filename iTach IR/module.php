@@ -161,10 +161,10 @@ class iTachDeviceIR extends IPSModule {
 	private function HandleConfig(array $Msg) {
 
 		$this->SendDebug(__FUNCTION__, sprintf('Received configuration "%s"', json_encode($Msg) ), 0);
-
-		if($this->ReadPropertyString($Msg[1])!=$Msg[2]) {
-			$value = substr($Msg[2], 0, strlen($Msg[2])-1);
-			$this->UpdateFormField($Msg[1], 'value', strtoupper($value));	
+		
+		$value = strtoupper($Msg[2]);
+		if($this->ReadPropertyString($Msg[1])!=$value) {
+			$this->UpdateFormField($Msg[1], 'value', $value);	
 		}
 
 		
