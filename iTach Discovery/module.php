@@ -211,7 +211,7 @@ class iTachDiscovery extends IPSModule {
 			switch(strtolower($device['model'])) {
 				case 'itachwf2ir':
 				case 'itachip2ir':
-					$config = $this->GetDeviceConfig($ipAddress, $this->GetIRQueryString());
+					$config = $this->GetDeviceConfig($ipAddress, $this->GetConfigQueryString($device['model']));
 					if(count($config)>0) {
 						$devices[$device['uuid']]['1:1'] = strtoupper($config['IR']['1:1']['Mode']);
 						$devices[$device['uuid']]['1:2'] = strtoupper($config['IR']['1:2']['Mode']);		
@@ -256,16 +256,30 @@ class iTachDiscovery extends IPSModule {
 		return $instances;
 	}
 
-	private function GetIRQueryString() : string {
-		$query= '';
-		for($index=1;$index<4;$index++) {
-			$query.= sprintf('get_IR,1:%d%c', $index, 13);    
-		}
+
+	private function GetConfigQueryString(string $Model) : string {
+		$query = '';
+        switch(strtolower($Model)) {
+            case 'itachwf2ir':
+            case 'itachip2ir':
+                for($index=1;$index<4;$index++) {
+                    $query .= sprintf('get_IR,1:%d%c', $index, 13);
+                }
+                break;
+            case 'itachip2sl':
+            case 'itachwf2sl':
+                for($index=1;$index<4;$index++) {
+                    $query .= sprintf('get_SERIAL,1:%d%c', $index, 13);
+                }
+                break;
+            default:
+                $query = '';
+        }
 
 		return $query;
 	}
 
-	private function GetDeviceConfig(string $IPAddress, string $Query) {
+	private function GetDeviceConfig(string $IPAddress, string $Query) : array {
 		try {
 			$socket = false;
 			if(!($socket = socket_create(AF_INET, SOCK_STREAM, 0))) {

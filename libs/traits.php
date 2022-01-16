@@ -32,23 +32,23 @@ trait Messages {
                     if(count($msg)>1) {
                         switch($msg[0]) {
                             case 'setstate':
-                                case 'state':    
-                                    $this->HandleState($msg);
-                                    break;
-                                case 'err_0:0':
-                                    $this->HandleError($msg);
-                                    break;
-                                case 'unknowncommand':
-                                    $this->HandleError($msg);
-                                    break;
-                                case 'completeir':
-                                    $this->HandleIR($msg);
-                                case 'ir':
-                                case 'serial':
-                                    $this->HandleConfig($msg);
-                                    break;
-                                default:
-                                    $this->SendDebug(__FUNCTION__, 'Received data that is not handled!', 0);	
+                            case 'state':    
+                                $this->HandleState($msg);
+                                break;
+                            case 'err_0:0':
+                                $this->HandleError($msg);
+                                break;
+                            case 'unknowncommand':
+                                $this->HandleError($msg);
+                                break;
+                            case 'completeir':
+                                $this->HandleIR($msg);
+                            case 'ir':
+                            case 'serial':
+                                $this->HandleConfig($msg);
+                                break;
+                            default:
+                                $this->SendDebug(__FUNCTION__, 'Received data that is not handled!', 0);	
                         }
                     }  else {
                         $this->SendDebug(__FUNCTION__, 'Received incomplete data.', 0);	
@@ -73,8 +73,12 @@ trait Messages {
                     $query .= sprintf('get_IR,1:%d%c', $index, 13);
                 }
                 break;
-            default:
-                $query = '';
+            case 'itachip2sl':
+            case 'itachwf2sl':
+                for($index=1;$index<4;$index++) {
+                    $query .= sprintf('get_SERIAL,1:%d%c', $index, 13);
+                }
+                break;
         }
 
         if(strlen(@query)>0) {
