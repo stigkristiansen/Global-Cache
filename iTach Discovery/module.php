@@ -194,7 +194,7 @@ class iTachDiscovery extends IPSModule {
 			case 'itachwf2ir':
 			case 'itachip2ir': // IR
 				$value = [
-					'Name'  => $Name;
+					'Name'  => $Name.
 					'Model' => $Device['Model'],
 					'1:1'	=> $Device['1:1'],
 					'1:2'	=> $Device['1:2'],
@@ -204,14 +204,14 @@ class iTachDiscovery extends IPSModule {
 			case 'itachip2cc':
 			case 'itachwf2cc':	//Relay
 				$value = [
-					'Name'  => $Name;
+					'Name'  => $Name,
 					'Model' => $Device['Model']
 				];
 				break;
 			case 'itachip2sl':
 			case 'itachwf2sl': // Serial
 				$value =  [
-					'Name'  => $Name;
+					'Name'  => $Name,
 					'Model' => $Device['Model']
 				];
 				break;
