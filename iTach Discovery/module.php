@@ -212,7 +212,16 @@ class iTachDiscovery extends IPSModule {
 			case 'itachwf2sl': // Serial
 				$value =  [
 					'Name'  => $Name,
-					'Model' => $Device['Model']
+					'Model' => $Device['Model'],
+					'1:1_Baudrate' => $Device['1:1']['Bauderate'],
+					'1:1_Flowcontrol' => $Device['1:1']['Flowcontrol'],
+					'1:1_Parity' => $Device['1:1']['Parity'],
+					'1:2_Baudrate' => $Device['1:2']['Bauderate'],
+					'1:2_Flowcontrol' => $Device['1:2']['Flowcontrol'],
+					'1:2_Parity' => $Device['1:2']['Parity'],
+					'1:3_Baudrate' => $Device['1:3']['Bauderate'],
+					'1:3_Flowcontrol' => $Device['1:3']['Flowcontrol'],
+					'1:3_Parity' => $Device['1:3']['Parity']
 				];
 				break;
 			default:
@@ -242,25 +251,37 @@ class iTachDiscovery extends IPSModule {
 
 			$devices[$device['uuid']] = ['Model' => $device['model'], 'IPAddress' => $ipAddress];
 
-			switch(strtolower($device['model'])) {
-				case 'itachwf2ir':
-				case 'itachip2ir':
-					$config = $this->GetDeviceConfig($ipAddress, $this->GetConfigQueryString($device['model']));
-					if(count($config)>0) {
+			$config = $this->GetDeviceConfig($ipAddress, $this->GetConfigQueryString($device['model']));
+
+			if(count($config)>0) {
+				switch(strtolower($device['model'])) {
+					case 'itachwf2ir':
+					case 'itachip2ir':
 						$devices[$device['uuid']]['1:1'] = strtoupper($config['IR']['1:1']['Mode']);
 						$devices[$device['uuid']]['1:2'] = strtoupper($config['IR']['1:2']['Mode']);		
 						$devices[$device['uuid']]['1:3'] = strtoupper($config['IR']['1:3']['Mode']);
-					}
-					break;
-				default:
-					$config = [];
-			}
-			
-			if(count($config)>0) {
-				$devices[$device['uuid']]['Mask'] = $config['NET']['Mask'];
-				$devices[$device['uuid']]['Gateway'] = $config['NET']['Gateway'];
-				$devices[$device['uuid']]['DHCP'] = $config['NET']['DHCP'];
-				$devices[$device['uuid']]['Locked'] = $config['NET']['Locked'];
+						break;
+					case 'itachwf2ir':
+					case 'itachip2ir':
+						$devices[$device['uuid']]['1:1'] = [
+							'Baudrate'	  => $config['SERIAL'['1:1']['Baudrate'],
+							'Flowcontrol' => $config['SERIAL'['1:1']['Flowcontrol'],
+							'Parity' 	  => $config['SERIAL'['1:1']['Parity']
+						];
+						$devices[$device['uuid']]['1:2'] = [
+							'Baudrate'	  => $config['SERIAL'['1:2']['Baudrate'],
+							'Flowcontrol' => $config['SERIAL'['1:2']['Flowcontrol'],
+							'Parity' 	  => $config['SERIAL'['1:2']['Parity']
+						];
+						$devices[$device['uuid']]['1:3'] = [
+							'Baudrate'	  => $config['SERIAL'['1:3']['Baudrate'],
+							'Flowcontrol' => $config['SERIAL'['1:3']['Flowcontrol'],
+							'Parity' 	  => $config['SERIAL'['1:3']['Parity']
+						];												 
+						break;
+					default:
+						$config = [];
+				}
 			}
 		}
 	
@@ -306,61 +327,61 @@ class iTachDiscovery extends IPSModule {
                     $query .= sprintf('get_SERIAL,1:%d%c', $index, 13);
                 }
                 break;
-            default:
-                $query = '';
         }
 
 		return $query;
 	}
 
 	private function GetDeviceConfig(string $IPAddress, string $Query) : array {
-		try {
-			$socket = false;
-			if(!($socket = socket_create(AF_INET, SOCK_STREAM, 0))) {
-				throw new Exeption('Unable to create socket');
-			}
-	
-			socket_set_option($socket, SOL_SOCKET, SO_REUSEADDR, 1);
-			socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, ['sec' => 0, 'usec' => 500000]);
-	
-			if(!socket_connect($socket , $IPAddress , 4998)) {        
-				throw new Exeption('Unable to connect to socket');
-			}
-	
-			$Query .= sprintf('get_NET,0:1%c', 13);
-	
-			if(!socket_send($socket, $Query, strlen($Query), 0)) {
-				throw new Exeption('Unable to send data to socket');
-			}
-	
-			$buffer = 'Buffer';
-			$config = [];
-			while(true) {
-				@$buffer = socket_read($socket, 128, PHP_NORMAL_READ);
-				if($buffer===false) {
-					break;
+		if(strlen($Query)>0) {
+			try {
+				$socket = false;
+				if(!($socket = socket_create(AF_INET, SOCK_STREAM, 0))) {
+					throw new Exeption('Unable to create socket');
 				}
-				if($buffer=='') {
-					break;
-				} 
-				
-				$config[] = substr($buffer, 0, strlen($buffer)-1);
-			}
-	
-			return $this->FormatDeviceConfig($config);
-	
-		} catch(Exception $e) {
-			$errorcode = socket_last_error();
-			$errormsg = socket_strerror($errorcode);
-	
-			throw new Exeption(sprintf('%s: %d - %s', $e->getMessage(), $errorCode, $errorMsg));
-		} finally {
-			if($socket!==false) {
-				socket_close($socket);
-			}
-			
-		}
 		
+				socket_set_option($socket, SOL_SOCKET, SO_REUSEADDR, 1);
+				socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, ['sec' => 0, 'usec' => 500000]);
+		
+				if(!socket_connect($socket , $IPAddress , 4998)) {        
+					throw new Exeption('Unable to connect to socket');
+				}
+		
+				$Query .= sprintf('get_NET,0:1%c', 13);
+		
+				if(!socket_send($socket, $Query, strlen($Query), 0)) {
+					throw new Exeption('Unable to send data to socket');
+				}
+		
+				$buffer = 'Buffer';
+				$config = [];
+				while(true) {
+					@$buffer = socket_read($socket, 128, PHP_NORMAL_READ);
+					if($buffer===false) {
+						break;
+					}
+					if($buffer=='') {
+						break;
+					} 
+					
+					$config[] = substr($buffer, 0, strlen($buffer)-1);
+				}
+		
+				return $this->FormatDeviceConfig($config);
+		
+			} catch(Exception $e) {
+				$errorcode = socket_last_error();
+				$errormsg = socket_strerror($errorcode);
+		
+				throw new Exeption(sprintf('%s: %d - %s', $e->getMessage(), $errorCode, $errorMsg));
+			} finally {
+				if($socket!==false) {
+					socket_close($socket);
+				}
+			}
+		} else {
+			return [];
+		}
 	}
 	
 	private function FormatDeviceConfig(array $Config) : array {

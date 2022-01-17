@@ -5,7 +5,7 @@
             "image": "data:image/png;base64,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"
         },
         {
-            "type" :  "Label" ,  "caption" :  "iTach RELAY"
+            "type" :  "Label" ,  "caption" :  "iTach SERIAL"
         },
         {
             "type" :  "ValidationTextBox" ,  "name" :  "Name" ,  "caption" :  "Name", "enabled": false
@@ -13,20 +13,148 @@
         {
             "type" :  "ValidationTextBox" ,  "name" :  "Model" ,  "caption" :  "Model", "enabled": false
         },
-        { 
-            "type": "Select",
-            "name": "Relay",
-            "caption": "Default Relay",
-            "options": [
-                { "label": "1:1", "value": "1:1" },
-                { "label": "1:2", "value": "1:2" },
-				{ "label": "1:3", "value": "1:3" }
-            ]
-	    }
+        {
+            "type": "ExpansionPanel",
+            "caption": "Connector Configuration",
+            "items": [
+                {
+                    "type":"RowLayout",
+                    "items": [
+                        {
+                            "type": "Label",
+                            "caption": "Connector 1:"
+                        },
+                        {
+                            "type": "Select",
+                            "name": "1:1_Baudrate",
+                            "caption": "Baudrate",
+                            "options": [
+                                { "caption": " ", "value": "NA" },
+                                { "caption": "115200", "value": 115200 },
+                                { "caption": "57600", "value": 57600 },
+                                { "caption": "38400", "value": 38400 },
+                                { "caption": "9600", "value": 9600 },
+                                { "caption": "4800", "value": 4800 },
+                                { "caption": "2400", "value": 2400 },
+                                { "caption": "1200", "value": 1200 }
+                            ]
+                        },
+                        {
+                            "type": "Select",
+                            "name": "1:1_Flowcontrol",
+                            "caption": "Flow Control",
+                            "options": [
+                                { "caption": " ", "value": "NA" },
+                                { "caption": "Hardware", "value": "FLOW_HARDWARE" },
+                                { "caption": "None", "value": "FLOW_NONE" }
+                            ]
+                        },
+                        {
+                            "type": "Select",
+                            "name": "1:1_Parity",
+                            "caption": "Parity",
+                            "options": [
+                                { "caption": " ", "value": "NA" },
+                                { "caption": "No", "value": "PARITY_NO" },
+                                { "caption": "Even", "value": "PARITY_EVEN" },
+                                { "caption": "Odd", "value": "PARITY_ODD" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"RowLayout",
+                    "items": [
+                        {
+                            "type": "Label",
+                            "caption": "Connector 2:"
+                        },
+                        {
+                            "type": "Select",
+                            "name": "1:2_Baudrate",
+                            "caption": "Baudrate",
+                            "options": [
+                                { "caption": " ", "value": "NA" },
+                                { "caption": "115200", "value": 115200 },
+                                { "caption": "57600", "value": 57600 },
+                                { "caption": "38400", "value": 38400 },
+                                { "caption": "9600", "value": 9600 },
+                                { "caption": "4800", "value": 4800 },
+                                { "caption": "2400", "value": 2400 },
+                                { "caption": "1200", "value": 1200 }
+                            ]
+                        },
+                        {
+                            "type": "Select",
+                            "name": "1:2_Flowcontrol",
+                            "caption": "Flow Control",
+                            "options": [
+                                { "caption": " ", "value": "NA" },
+                                { "caption": "Hardware", "value": "FLOW_HARDWARE" },
+                                { "caption": "None", "value": "FLOW_NONE" }
+                            ]
+                        },
+                        {
+                            "type": "Select",
+                            "name": "1:2_Parity",
+                            "caption": "Parity",
+                            "options": [
+                                { "caption": " ", "value": "NA" },
+                                { "caption": "No", "value": "PARITY_NO" },
+                                { "caption": "Even", "value": "PARITY_EVEN" },
+                                { "caption": "Odd", "value": "PARITY_ODD" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"RowLayout",
+                    "items": [
+                        {
+                            "type": "Label",
+                            "caption": "Connector 1"
+                        },
+                        {
+                            "type": "Select",
+                            "name": "1:3_Baudrate",
+                            "caption": "Baudrate",
+                            "options": [
+                                { "caption": " ", "value": 0 },
+                                { "caption": "115200", "value": 115200 },
+                                { "caption": "57600", "value": 57600 },
+                                { "caption": "38400", "value": 38400 },
+                                { "caption": "9600", "value": 9600 },
+                                { "caption": "4800", "value": 4800 },
+                                { "caption": "2400", "value": 2400 },
+                                { "caption": "1200", "value": 1200 }
+                            ]
+                        },
+                        {
+                            "type": "Select",
+                            "name": "1:3_Flowcontrol",
+                            "caption": "Flow Control",
+                            "options": [
+                                { "caption": " ", "value": "NA" },
+                                { "caption": "Hardware", "value": "FLOW_HARDWARE" },
+                                { "caption": "None", "value": "FLOW_NONE" }
+                            ]
+                        },
+                        {
+                            "type": "Select",
+                            "name": "1:3_Parity",
+                            "caption": "Parity",
+                            "options": [
+                                { "caption": " ", "value": "NA" },
+                                { "caption": "No", "value": "PARITY_NO" },
+                                { "caption": "Even", "value": "PARITY_EVEN" },
+                                { "caption": "Odd", "value": "PARITY_ODD" }
+                            ]
+                        }
+                    ]
+                }    
+            ]   
+        }
     ],
     "status": []
 }
-
-
-
 
