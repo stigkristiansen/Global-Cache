@@ -155,6 +155,6 @@ class iTachDeviceRelay extends IPSModule {
 			$this->GetRelayStatusEx('1:1');
 			$this->GetRelayStatusEx('1:2');
 			$this->GetRelayStatusEx('1:3');
-		}}
+		}
 	}
 }
