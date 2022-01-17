@@ -142,7 +142,7 @@ class iTachDiscovery extends IPSModule {
 					]
 				];
 			
-			$this->SendDebug(__FUNCTION__, sprintf('Generated value for found device: %s', josn_endode($value)), 0);
+			$this->SendDebug(__FUNCTION__, sprintf('Generated value for found device: %s', json_endode($value)), 0);
 			$values[] = $value;
 		}
 
