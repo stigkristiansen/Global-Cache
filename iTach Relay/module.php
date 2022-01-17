@@ -151,10 +151,8 @@ class iTachDeviceRelay extends IPSModule {
 	}
 
 	private function RequestState() {
-		if(strlen($Relay)==0) {
-			$this->GetRelayStatusEx('1:1');
-			$this->GetRelayStatusEx('1:2');
-			$this->GetRelayStatusEx('1:3');
-		}
+		$this->GetRelayStatusEx('1:1');
+		$this->GetRelayStatusEx('1:2');
+		$this->GetRelayStatusEx('1:3');
 	}
 }
