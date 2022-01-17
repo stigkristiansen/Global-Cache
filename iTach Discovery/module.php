@@ -127,7 +127,7 @@ class iTachDiscovery extends IPSModule {
 				[
 					'moduleID'       => $this->GetModuleIdByModel($device['Model']),  
 					'name'			 => $name,
-					'configuration'	 => $this->GetModuleCreateConfiguration($device);
+					'configuration'	 => $this->GetModuleCreateConfiguration($device)
 				];
 					
 			$value['create'][0]['configuration']['Name'] = $name;
