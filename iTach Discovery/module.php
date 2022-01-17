@@ -194,7 +194,7 @@ class iTachDiscovery extends IPSModule {
 			case 'itachwf2ir':
 			case 'itachip2ir': // IR
 				$value = [
-					'Name'  => $Name.
+					'Name'  => $Name,
 					'Model' => $Device['Model'],
 					'1:1'	=> $Device['1:1'],
 					'1:2'	=> $Device['1:2'],
