@@ -127,10 +127,10 @@ class iTachDiscovery extends IPSModule {
 				[
 					'moduleID'       => $this->GetModuleIdByModel($device['Model']),  
 					'name'			 => $name,
-					'configuration'	 => $this->GetModuleCreateConfiguration($device)
+					'configuration'	 => $this->GetModuleCreateConfiguration($name, $device)
 				];
 					
-			$value['create'][0]['configuration']['Name'] = $name;
+			
 							
 			$value['create'][] =
 				[
@@ -142,7 +142,7 @@ class iTachDiscovery extends IPSModule {
 					]
 				];
 			
-		
+			$this->SendDebug(__FUNCTION__, sprintf('Generated value for found device: %s', josn_endode($value)), 0);
 			$values[] = $value;
 		}
 
@@ -189,11 +189,12 @@ class iTachDiscovery extends IPSModule {
 		}
 	}
 
-	private function GetModuleCreateConfiguration(array $Device) : array {
+	private function GetModuleCreateConfiguration(string $Name, array $Device) : array {
 		switch(strtolower($Device['Model'])) {
 			case 'itachwf2ir':
 			case 'itachip2ir': // IR
 				$value = [
+					'Name'  => $Name;
 					'Model' => $Device['Model'],
 					'1:1'	=> $Device['1:1'],
 					'1:2'	=> $Device['1:2'],
@@ -203,12 +204,14 @@ class iTachDiscovery extends IPSModule {
 			case 'itachip2cc':
 			case 'itachwf2cc':	//Relay
 				$value = [
+					'Name'  => $Name;
 					'Model' => $Device['Model']
 				];
 				break;
 			case 'itachip2sl':
 			case 'itachwf2sl': // Serial
 				$value =  [
+					'Name'  => $Name;
 					'Model' => $Device['Model']
 				];
 				break;
