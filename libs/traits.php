@@ -65,24 +65,26 @@ trait iTach {
 	}
 
     private function GetConfig(string $Model) {
-        $query = '';
-        switch(strtolower($Model)) {
-            case 'itachwf2ir':
-            case 'itachip2ir':
-                for($index=1;$index<4;$index++) {
-                    $query .= sprintf('get_IR,1:%d%c', $index, 13);
-                }
-                break;
-            case 'itachip2sl':
-            case 'itachwf2sl':
-                for($index=1;$index<4;$index++) {
-                    $query .= sprintf('get_SERIAL,1:%d%c', $index, 13);
-                }
-                break;
-        }
+        if($this->HasActiveParent()) {
+            $query = '';
+            switch(strtolower($Model)) {
+                case 'itachwf2ir':
+                case 'itachip2ir':
+                    for($index=1;$index<4;$index++) {
+                        $query .= sprintf('get_IR,1:%d%c', $index, 13);
+                    }
+                    break;
+                case 'itachip2sl':
+                case 'itachwf2sl':
+                    for($index=1;$index<4;$index++) {
+                        $query .= sprintf('get_SERIAL,1:%d%c', $index, 13);
+                    }
+                    break;
+            }
 
-        if(strlen(@query)>0) {
-            $this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $query)));
+            if(strlen($query)>0) {
+                $this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $query)));
+            }
         }
     }
 
