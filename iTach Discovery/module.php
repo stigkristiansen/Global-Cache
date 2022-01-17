@@ -126,15 +126,12 @@ class iTachDiscovery extends IPSModule {
 			$value['create'][] = 
 				[
 					'moduleID'       => $this->GetModuleIdByModel($device['Model']),  
-					'name'			 => $name,
-					'configuration'	 => [
-						'Model' 	 => $device['Model'],
-						'Name'		 => $name,
-						'1:1'		 => $device['1:1'],
-						'1:2'		 => $device['1:2'],
-						'1:3'		 => $device['1:3']
-					]
+					'name'			 => $name
+					'configuration'	 => $this->GetModuleCreateConfiguration($device);
 				];
+					
+			$value['create'][0]['configuration']['Name'] = $name;
+							
 			$value['create'][] =
 				[
 					'moduleID'       => '{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}',  
@@ -187,6 +184,35 @@ class iTachDiscovery extends IPSModule {
 			default:
 				return '';
 		}
+	}
+
+	private function GetModuleCreateConfiguration(array $Device) : array {
+		switch(strtolower($Device['Model'])) {
+			case 'itachwf2ir':
+			case 'itachip2ir': // IR
+				$value = [
+					'Model' => $Device['Model'],
+					'1:1'	=> $Device['1:1'],
+					'1:2'	=> $Device['1:2'],
+					'1:3'	=> $Device['1:3']
+				];		
+			case 'itachip2cc':
+			case 'itachwf2cc':	//Relay
+				$value = [
+					'Model' => $Device['Model'],
+				];
+				break;
+			case 'itachip2sl':
+			case 'itachwf2sl': // Serial
+				$value =  [
+					'Model' => $Device['Model'],
+				];
+				break;
+			default:
+				$value = [];
+		}
+
+		return $value;
 	}
 
 	private function DiscoverGCDevices(bool $LogMessage=true) : array {
