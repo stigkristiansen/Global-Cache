@@ -62,7 +62,6 @@ class iTachDiscovery extends IPSModule {
 		$this->LogMessage($msg, KL_NOTIFY);
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
-		//$this->SetTimerInterval('SetIOConfig', 1000);
 		$this->SetTimerInterval('UpdateDeviceConfig', 180000);
 	}
 
@@ -199,7 +198,7 @@ class iTachDiscovery extends IPSModule {
 				return '{F505B016-C990-9CC5-8752-EDA48ECE66DF}';
 			case 'itachip2sl':
 			case 'itachwf2sl':	
-				return '{FFFFFFF-C990-9CC5-8752-EDA48ECE66DF}'; 
+				return '{1AF0EC97-FA9A-4281-BB94-DAA821C53059}'; 
 			default:
 				return '';
 		}
@@ -494,9 +493,6 @@ class iTachDiscovery extends IPSModule {
 
 	public function RequestAction($Ident, $Value) {
 		switch (strtolower($Ident)) {
-			case 'setioconfig':
-				$this->SetIOConfig();
-				break;
 			case 'discover':
 				$this->SendDebug(__FUNCTION__, 'Calling LoadDevices()...', 0);
 				$this->LoadDevices();
@@ -538,19 +534,5 @@ class iTachDiscovery extends IPSModule {
 				}
 			}
 		}		
-	}
-
-	private function SetIOConfig() {
-		$this->SetTimerInterval('SetIOConfig', 0);
-
-		$this->SendDebug(__FUNCTION__, 'Setting the configuration of the Multicast I/O instance...', 0);
-		
-		$parentId = IPS_GetInstance($this->InstanceID)['ConnectionID'];
-		
-		IPS_SetProperty($parentId, 'BindPort', 9131);
-		IPS_SetProperty($parentId, 'EnableReuseAddress', true);
-		IPS_SetProperty($parentId, 'MulticastIP', '239.255.250.250');
-		IPS_SetProperty($parentId, "Open", true);
-		IPS_ApplyChanges($parentId);
 	}
 }
