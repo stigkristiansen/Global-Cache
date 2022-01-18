@@ -43,7 +43,7 @@ class iTachDiscovery extends IPSModule {
 	public function GetConfigurationForParent() {
 		$config = [
 			"Open" => true,
-			//"BindIP" => getHostByName(getHostName()),
+			"BindIP" => "0.0.0.0",
 			"BindPort" => 9131,
 			"Host" => "",
 			"Port" => 0,
@@ -313,8 +313,9 @@ class iTachDiscovery extends IPSModule {
 
 		$instanceIdsIR = IPS_GetInstanceListByModuleID('{C507B0A6-C990-9CC5-8752-FCA481CE66DD}');
 		$instanceIdsRelay = IPS_GetInstanceListByModuleID('{F505B016-C990-9CC5-8752-EDA48ECE66DF}');
+		$instanceIdsSerial = IPS_GetInstanceListByModuleID('{1AF0EC97-FA9A-4281-BB94-DAA821C53059}');
 
-		$instanceIds = array_merge($instanceIdsIR, $instanceIdsRelay);
+		$instanceIds = array_merge($instanceIdsIR, $instanceIdsRelay, $instanceIdsSerial);
 		
 		foreach ($instanceIds as $instanceId) {
 			$instances[$instanceId] = IPS_GetProperty($instanceId, 'Name');
