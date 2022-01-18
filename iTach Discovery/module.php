@@ -43,7 +43,7 @@ class iTachDiscovery extends IPSModule {
 	public function GetConfigurationForParent() {
 		$config = [
 			"Open" => true,
-			"BindIP" => getHostByName(getHostName()),
+			//"BindIP" => getHostByName(getHostName()),
 			"BindPort" => 9131,
 			"Host" => "",
 			"Port" => 0,
@@ -362,8 +362,6 @@ class iTachDiscovery extends IPSModule {
 					throw new Exeption('Unable to connect to socket');
 				}
 		
-				$Query .= sprintf('get_NET,0:1%c', 13);
-		
 				if(!socket_send($socket, $Query, strlen($Query), 0)) {
 					throw new Exeption('Unable to send data to socket');
 				}
@@ -400,9 +398,9 @@ class iTachDiscovery extends IPSModule {
 	}
 	
 	private function FormatDeviceConfig(array $Config) : array {
-		$max = count($Config)-1;
+		$max = count($Config);
 		$config = [];
-		for($index=0;$index<=$max;$index++) {
+		for($index=0;$index<$max;$index++) {
 			//var_dump($msg);
 			$configSplit = explode(',', strtolower($Config[$index]));
 			
@@ -428,7 +426,6 @@ class iTachDiscovery extends IPSModule {
 		return $config;
 	}
 	
-
 	public function ReceiveData($JSONString) {
 		$data = json_decode($JSONString);
 		$multicast = utf8_decode($data->Buffer);
