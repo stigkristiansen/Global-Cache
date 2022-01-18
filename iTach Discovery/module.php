@@ -40,13 +40,29 @@ class iTachDiscovery extends IPSModule {
 		}
 	}
 
+	public function GetConfigurationForParent() {
+		$config = [
+			"Open" => true,
+			"BindIP" => getHostByName(getHostName()),
+			"BindPort" => 9131,
+			"Host" => "",
+			"Port" => 0,
+			"EnableBroadcast" => false,
+			"EnableReuseAddress" => true,
+			"EnableLoopback" => false,
+			"MulticastIP" => "239.255.250.250"
+		];
+
+		return json_encode($config);
+	}
+
 	private function Init() {
 		$msg = 'Initializing...';
 		
 		$this->LogMessage($msg, KL_NOTIFY);
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
-		$this->SetTimerInterval('SetIOConfig', 1000);
+		//$this->SetTimerInterval('SetIOConfig', 1000);
 		$this->SetTimerInterval('UpdateDeviceConfig', 180000);
 	}
 
