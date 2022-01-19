@@ -230,13 +230,7 @@ class iTachDiscovery extends IPSModule {
 					'Model' => $Device['Model'],
 					'1:1_Baudrate' => $Device['1:1']['Bauderate'],
 					'1:1_Flowcontrol' => $Device['1:1']['Flowcontrol'],
-					'1:1_Parity' => $Device['1:1']['Parity']//,
-					/*'1:2_Baudrate' => $Device['1:2']['Bauderate'],
-					'1:2_Flowcontrol' => $Device['1:2']['Flowcontrol'],
-					'1:2_Parity' => $Device['1:2']['Parity'],
-					'1:3_Baudrate' => $Device['1:3']['Bauderate'],
-					'1:3_Flowcontrol' => $Device['1:3']['Flowcontrol'],
-					'1:3_Parity' => $Device['1:3']['Parity']*/
+					'1:1_Parity' => $Device['1:1']['Parity']
 				];
 				break;
 			default:
@@ -283,16 +277,6 @@ class iTachDiscovery extends IPSModule {
 							'Flowcontrol' => $config['SERIAL']['1:1']['Flowcontrol'],
 							'Parity' 	  => $config['SERIAL']['1:1']['Parity']
 						];
-						/*$devices[$device['uuid']]['1:2'] = [
-							'Baudrate'	  => $config['SERIAL']['1:2']['Baudrate'],
-							'Flowcontrol' => $config['SERIAL']['1:2']['Flowcontrol'],
-							'Parity' 	  => $config['SERIAL']['1:2']['Parity']
-						];
-						$devices[$device['uuid']]['1:3'] = [
-							'Baudrate'	  => $config['SERIAL']['1:3']['Baudrate'],
-							'Flowcontrol' => $config['SERIAL']['1:3']['Flowcontrol'],
-							'Parity' 	  => $config['SERIAL']['1:3']['Parity']
-						];*/
 						break;
 					default:
 						$config = [];
