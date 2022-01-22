@@ -43,6 +43,7 @@ trait iTach {
                                 break;
                             case 'completeir':
                                 $this->HandleIR($msg);
+                                break;
                             case 'ir':
                             case 'serial':
                                 $this->HandleConfig($msg);
