@@ -171,8 +171,6 @@ class iTachDeviceIR extends IPSModule {
 		if($this->ReadPropertyString($Msg[1])!=$value) {
 			$this->UpdateFormField($Msg[1], 'value', $value);	
 		}
-
-		
 	}
 
 	

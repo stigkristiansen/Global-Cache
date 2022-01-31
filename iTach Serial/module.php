@@ -51,10 +51,8 @@ class iTachDeviceSerial extends IPSModule {
 	}
 
 	private function UpdateConnectorConfig() {
-		$settings=sprintf('set_SERIAL,1:1,%d,%s,%s%cset_SERIAL,1:2,%d,%s,%s%cset_SERIAL,1:3,%d,%s,%s%c', 
-			$this->ReadPropertyString('1:1_Baudrate'), $this->ReadPropertyString('1:1_Flowcontrol'), $this->ReadPropertyString('1:1_Parity'), 13, 
-			$this->ReadPropertyString('1:2_Baudrate'), $this->ReadPropertyString('1:2_Flowcontrol'), $this->ReadPropertyString('1:2_Parity'), 13, 
-			$this->ReadPropertyString('1:3_Baudrate'), $this->ReadPropertyString('1:3_Flowcontrol'), $this->ReadPropertyString('1:3_Parity'), 13); 
+		$settings=sprintf('set_SERIAL,1:1,%d,%s,%s%c', 
+			$this->ReadPropertyString('1:1_Baudrate'), $this->ReadPropertyString('1:1_Flowcontrol'), $this->ReadPropertyString('1:1_Parity'), 13); 
 		
 		if($this->HasActiveParent()) {
 			$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $settings)));
